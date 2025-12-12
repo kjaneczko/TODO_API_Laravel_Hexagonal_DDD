@@ -18,6 +18,10 @@ class CreateTaskController extends Controller
         CreateTaskHandler $handler,
     ): JsonResponse
     {
+        $request->validate([
+            'value' => 'required|min:1|max:255',
+        ]);
+
         $command = new CreateTaskCommand(Task::create(value: $request->get('value')));
 
         $task = $handler($command);

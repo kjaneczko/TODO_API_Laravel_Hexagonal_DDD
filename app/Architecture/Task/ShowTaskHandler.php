@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Architecture\Task;
 
+use App\Architecture\Task\Exception\TaskNotFoundException;
 use App\Domain\Task\Task;
 use App\Domain\Task\TaskRepository;
 
@@ -12,8 +13,15 @@ readonly class ShowTaskHandler
         private TaskRepository $repository,
     ) {}
 
+    /**
+     * @throws TaskNotFoundException
+     */
     public function __invoke(ShowTaskCommand $command): Task|null
     {
-        return $this->repository->findById($command->id->toInt());
+        $task = $this->repository->findById($command->id->toInt());
+        if (!$task) {
+            throw TaskNotFoundException::withId($command->id->toInt());
+        }
+        return $task;
     }
 }

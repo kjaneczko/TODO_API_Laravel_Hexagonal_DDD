@@ -1,22 +1,24 @@
 <?php
 declare(strict_types=1);
 
+use App\Models\TaskModel;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use function Pest\Laravel\getJson;
-use function Pest\Laravel\postJson;
 
 uses(RefreshDatabase::class);
 
 it('shows task', function () {
-    $value = 'test task';
-    $response = postJson('/api/tasks', ['value' => $value]);
-    $response->assertCreated();
-    $id = $response->json('id');
+    $model = TaskModel::factory()->create();
 
-    $response = getJson('/api/tasks/'.$id);
+    $response = getJson('/api/tasks/'.$model['id']);
     $response->assertOk();
     $response->assertJsonFragment([
-        'id' => $id,
-        'value' => $value,
+        'id' => $model['id'],
+        'value' => $model['value'],
     ]);
+});
+
+it('shows error task not found', function () {
+    $response = getJson('/api/tasks/10000');
+    $response->assertNotFound();
 });

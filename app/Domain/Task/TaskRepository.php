@@ -12,7 +12,7 @@ interface TaskRepository
     /**
      * @return Task[]
      */
-    public function findAll(): array;
+    public function findAll(int $page, int $limit): array;
 
     public function update(Task $task): bool;
 

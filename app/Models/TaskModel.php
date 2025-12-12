@@ -8,6 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @method static find(int $id)
+ * @method static take(float|int $offset)
+ * @method static orderBy(string $string)
+ * @method static skip(float|int $offset)
+ * @method static create(array $array)
+ * @method static where(string $string, int $toInt)
+ * @method static whereKey(int $toInt)
  * @property string $value
  * @property int $id
  */

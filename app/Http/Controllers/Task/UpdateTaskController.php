@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Task;
 
+use App\Architecture\Task\Exception\TaskNotFoundException;
 use App\Architecture\Task\UpdateTaskCommand;
 use App\Architecture\Task\UpdateTaskHandler;
 use App\Domain\Task\Task;
@@ -14,18 +15,21 @@ use Symfony\Component\HttpFoundation\Response;
 
 class UpdateTaskController extends Controller
 {
+    /**
+     * @throws TaskNotFoundException
+     */
     public function __invoke(
         Request           $request,
         UpdateTaskHandler $handler,
     ): JsonResponse
     {
         $task = Task::fromState(
-            id: new TaskId(id: $request->get('id')),
+            id: new TaskId(id: (int)$request->get('id')),
             value: $request->get('value'),
         );
         $command = new UpdateTaskCommand($task);
 
-        $status = $handler($command);
+        $handler($command);
 
         return response()->json([], Response::HTTP_OK);
     }

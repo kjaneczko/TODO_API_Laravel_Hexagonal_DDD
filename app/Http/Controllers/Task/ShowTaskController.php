@@ -17,9 +17,15 @@ class ShowTaskController extends Controller
         ShowTaskHandler $handler,
     ): JsonResponse
     {
+
+
         $command = new ShowTaskCommand(new TaskId($id));
 
         $task = $handler($command);
+
+        if (!$task) {
+            return response()->json([], Response::HTTP_NOT_FOUND);
+        }
 
         return response()->json([
             'id' => $task->id()->toInt(),

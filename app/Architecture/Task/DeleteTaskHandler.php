@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Architecture\Task;
 
-use App\Domain\Task\Task;
+use App\Architecture\Task\Exception\TaskNotFoundException;
 use App\Domain\Task\TaskRepository;
 
 readonly class DeleteTaskHandler
@@ -12,8 +12,13 @@ readonly class DeleteTaskHandler
         private TaskRepository $repository,
     ) {}
 
-    public function __invoke(DeleteTaskCommand $command): bool
+    /**
+     * @throws TaskNotFoundException
+     */
+    public function __invoke(DeleteTaskCommand $command): void
     {
-        return $this->repository->delete($command->id->toInt());
+        if (!$this->repository->delete($command->id->toInt())) {
+            throw TaskNotFoundException::withId($command->id->toInt());
+        }
     }
 }

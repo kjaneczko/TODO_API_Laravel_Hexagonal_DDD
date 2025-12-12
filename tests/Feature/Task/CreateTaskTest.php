@@ -14,3 +14,20 @@ it('create task', function () {
 
     $this->assertDatabaseHas('tasks', ['id' => $id, 'value' => $value]);
 });
+
+it ('shows errors for empty value', function () {
+    $response = postJson('/api/tasks', ['value' => '']);
+    $response->assertUnprocessable();
+});
+
+it ('shows errors for value of length over 255', function () {
+    $response = postJson('/api/tasks', [
+        'value' => '12345678901234567890123456789012345678901234567890'.
+            '12345678901234567890123456789012345678901234567890'.
+            '12345678901234567890123456789012345678901234567890'.
+            '12345678901234567890123456789012345678901234567890'.
+            '12345678901234567890123456789012345678901234567890'.
+            '12345678901234567890123456789012345678901234567890'
+    ]);
+    $response->assertUnprocessable();
+});
