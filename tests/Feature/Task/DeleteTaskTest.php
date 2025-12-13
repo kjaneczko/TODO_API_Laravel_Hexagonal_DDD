@@ -9,12 +9,12 @@ uses(RefreshDatabase::class);
 
 it('delete task', function () {
     // 1. Create new task
-    $value = 'test task';
-    $response = postJson('/api/tasks', ['value' => $value]);
+    $name = 'test task';
+    $response = postJson('/api/tasks', ['name' => $name]);
     $response->assertCreated();
     $id = $response->json('id');
 
-    $this->assertDatabaseHas('tasks', ['id' => $id, 'value' => $value]);
+    $this->assertDatabaseHas('tasks', ['id' => $id, 'name' => $name]);
 
     // 2. delete task
     $response = deleteJson('/api/tasks/'.$id);

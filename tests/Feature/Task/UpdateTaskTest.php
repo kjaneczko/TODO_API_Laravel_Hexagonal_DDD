@@ -9,17 +9,17 @@ uses(RefreshDatabase::class);
 
 it('update task', function () {
     // 1. Create new task
-    $value = 'test task';
-    $response = postJson('/api/tasks', ['value' => $value]);
+    $name = 'test task';
+    $response = postJson('/api/tasks', ['name' => $name]);
     $response->assertCreated();
     $id = $response->json('id');
 
-    $this->assertDatabaseHas('tasks', ['id' => $id, 'value' => $value]);
+    $this->assertDatabaseHas('tasks', ['id' => $id, 'name' => $name]);
 
-    // 2. Update task value
-    $value = 'updated value';
-    $response = patchJson('/api/tasks', ['id' => $id, 'value' => $value]);
+    // 2. Update task name
+    $name = 'updated name';
+    $response = patchJson('/api/tasks', ['id' => $id, 'name' => $name]);
     $response->assertOk();
 
-    $this->assertDatabaseHas('tasks', ['id' => $id, 'value' => $value]);
+    $this->assertDatabaseHas('tasks', ['id' => $id, 'name' => $name]);
 });

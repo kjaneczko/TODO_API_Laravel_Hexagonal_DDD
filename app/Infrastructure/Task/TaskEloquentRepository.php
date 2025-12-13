@@ -15,11 +15,11 @@ class TaskEloquentRepository implements TaskRepository
     /**
      * @throws DatabaseException
      */
-    public function create(Task $task): Task
+    public function create(string $name): Task
     {
         try {
             $model = TaskModel::create([
-                'value' => $task->value(),
+                'name' => $name,
             ]);
         }
         catch (QueryException $e) {
@@ -30,9 +30,7 @@ class TaskEloquentRepository implements TaskRepository
             throw DatabaseException::failedToSave();
         }
 
-        $task->setId(new TaskId($model->id));
-
-        return $task;
+        return $this->mapToDomain($model);
     }
 
     public function findById(int $id): Task|null
@@ -43,10 +41,7 @@ class TaskEloquentRepository implements TaskRepository
             return null;
         }
 
-        return Task::fromState(
-            id: new TaskId($model->id),
-            value: $model->value,
-        );
+        return $this->mapToDomain($model);
     }
 
     public function findAll(int $page, int $limit): array
@@ -57,12 +52,7 @@ class TaskEloquentRepository implements TaskRepository
             ->take($limit)
             ->orderBy('id')
             ->get()
-            ->map(
-                fn ($model) => Task::fromState(
-                    id: new TaskId($model->id),
-                    value: $model->value,
-                )
-            )
+            ->map(fn ($model) => $this->mapToDomain($model))
             ->all();
     }
 
@@ -73,7 +63,7 @@ class TaskEloquentRepository implements TaskRepository
     {
         try {
             $result = (bool)TaskModel::whereKey($task->id()->toInt())->update([
-                'value' => $task->value(),
+                'name' => $task->name(),
             ]);
         }
         catch (QueryException $e) {
@@ -100,6 +90,9 @@ class TaskEloquentRepository implements TaskRepository
 
     private function mapToDomain(TaskModel $task): Task
     {
-
+        return Task::reconstitute(
+            id: new TaskId($task->id),
+            name: $task->name,
+        );
     }
 }

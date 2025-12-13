@@ -14,7 +14,7 @@ it('shows task', function () {
     $response->assertOk();
     $response->assertJsonFragment([
         'id' => $model['id'],
-        'value' => $model['value'],
+        'name' => $model['name'],
     ]);
 });
 

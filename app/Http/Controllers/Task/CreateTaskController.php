@@ -19,16 +19,16 @@ class CreateTaskController extends Controller
     ): JsonResponse
     {
         $request->validate([
-            'value' => 'required|min:1|max:255',
+            'name' => 'required|min:1|max:255',
         ]);
 
-        $command = new CreateTaskCommand(Task::create(value: $request->get('value')));
+        $command = new CreateTaskCommand($request->get('name'));
 
         $task = $handler($command);
 
         return response()->json([
             'id' => $task->id()->toInt(),
-            'value' => $task->value(),
+            'name' => $task->name(),
         ], Response::HTTP_CREATED);
     }
 }

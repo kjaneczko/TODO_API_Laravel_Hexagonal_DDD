@@ -17,7 +17,7 @@ it('lists tasks', function () {
 
     $response->assertJsonFragment([
         'id' => $models[2]->id,
-        'value' => $models[2]->value,
+        'name' => $models[2]->name,
     ]);
 });
 
@@ -31,7 +31,7 @@ it('lists two from second page tasks', function () {
 
     $response->assertJsonFragment([
         'id' => $models[3]->id,
-        'value' => $models[3]->value,
+        'name' => $models[3]->name,
     ]);
 });
 

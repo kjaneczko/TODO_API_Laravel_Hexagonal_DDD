@@ -3,9 +3,11 @@ declare(strict_types=1);
 
 namespace App\Domain\Task;
 
+use App\Models\TaskModel;
+
 interface TaskRepository
 {
-    public function create(Task $task): Task;
+    public function create(string $name): Task;
 
     public function findById(int $id): Task|null;
 

@@ -23,11 +23,10 @@ class UpdateTaskController extends Controller
         UpdateTaskHandler $handler,
     ): JsonResponse
     {
-        $task = Task::fromState(
-            id: new TaskId(id: (int)$request->get('id')),
-            value: $request->get('value'),
+        $command = new UpdateTaskCommand(
+            id: (int)$request->get('id'),
+            name: $request->get('name'),
         );
-        $command = new UpdateTaskCommand($task);
 
         $handler($command);
 

@@ -7,22 +7,22 @@ use function Pest\Laravel\postJson;
 uses(RefreshDatabase::class);
 
 it('create task', function () {
-    $value = 'test task';
-    $response = postJson('/api/tasks', ['value' => $value]);
+    $name = 'test task';
+    $response = postJson('/api/tasks', ['name' => $name]);
     $response->assertCreated();
     $id = $response->json('id');
 
-    $this->assertDatabaseHas('tasks', ['id' => $id, 'value' => $value]);
+    $this->assertDatabaseHas('tasks', ['id' => $id, 'name' => $name]);
 });
 
-it ('shows errors for empty value', function () {
-    $response = postJson('/api/tasks', ['value' => '']);
+it ('shows errors for empty name', function () {
+    $response = postJson('/api/tasks', ['name' => '']);
     $response->assertUnprocessable();
 });
 
-it ('shows errors for value of length over 255', function () {
+it ('shows errors for name of length over 255', function () {
     $response = postJson('/api/tasks', [
-        'value' => '12345678901234567890123456789012345678901234567890'.
+        'name' => '12345678901234567890123456789012345678901234567890'.
             '12345678901234567890123456789012345678901234567890'.
             '12345678901234567890123456789012345678901234567890'.
             '12345678901234567890123456789012345678901234567890'.

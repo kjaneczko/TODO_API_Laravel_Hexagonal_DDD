@@ -7,22 +7,22 @@ class Task
 {
     private function __construct(
         private ?TaskId         $id,
-        private readonly string $value,
+        private string $name,
     ) {}
 
     public static function create(
-        string $value,
+        string $name,
     ): self
     {
-        return new self(null, $value);
+        return new self(null, $name);
     }
 
-    public static function fromState(
+    public static function reconstitute(
         TaskId $id,
-        string $value,
+        string $name,
     ): self
     {
-        return new self($id, $value);
+        return new self($id, $name);
     }
 
     public function id(): ?TaskId
@@ -30,13 +30,18 @@ class Task
         return $this->id;
     }
 
-    public function value(): string
+    public function name(): string
     {
-        return $this->value;
+        return $this->name;
     }
 
     public function setId(TaskId $id): void
     {
         $this->id = $id;
+    }
+
+    public function changename(string $name): void
+    {
+        $this->name = $name;
     }
 }

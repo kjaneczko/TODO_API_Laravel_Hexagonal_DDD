@@ -18,7 +18,7 @@ class TaskModelFactory extends Factory
     public function definition(): array
     {
         return [
-            'value' => $this->faker->sentence(),
+            'name' => $this->faker->sentence(),
         ];
     }
 }

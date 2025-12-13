@@ -29,7 +29,7 @@ class ListTaskController extends Controller
 
         $tasks = array_map(fn ($task) => [
             'id' => $task->id()->toInt(),
-            'value' => $task->value(),
+            'name' => $task->name(),
         ], $handler($command));
 
         return response()->json($tasks, Response::HTTP_OK);

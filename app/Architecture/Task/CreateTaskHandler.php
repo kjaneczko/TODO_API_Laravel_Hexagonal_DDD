@@ -15,6 +15,6 @@ readonly class CreateTaskHandler
 
     public function __invoke(CreateTaskCommand $command): Task
     {
-        return $this->repository->create($command->task);
+        return $this->repository->create($command->name);
     }
 }

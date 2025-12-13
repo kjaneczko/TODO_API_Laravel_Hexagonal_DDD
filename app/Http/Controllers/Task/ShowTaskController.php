@@ -29,7 +29,7 @@ class ShowTaskController extends Controller
 
         return response()->json([
             'id' => $task->id()->toInt(),
-            'value' => $task->value(),
+            'name' => $task->name(),
         ], Response::HTTP_OK);
     }
 }

@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static create(array $array)
  * @method static where(string $string, int $toInt)
  * @method static whereKey(int $toInt)
- * @property string $value
+ * @property string $name
  * @property int $id
  */
 class TaskModel extends Model
@@ -23,5 +23,5 @@ class TaskModel extends Model
     use HasFactory;
 
     protected $table = 'tasks';
-    protected $fillable = ['value'];
+    protected $fillable = ['name'];
 }

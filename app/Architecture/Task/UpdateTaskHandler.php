@@ -17,8 +17,15 @@ readonly class UpdateTaskHandler
      */
     public function __invoke(UpdateTaskCommand $command): void
     {
-        if (!$this->repository->update($command->task)) {
-            throw TaskNotFoundException::withId($command->task->id()->toInt());
+        $task = $this->repository->findById($command->id);
+        if (!$task) {
+            throw TaskNotFoundException::withId($command->id);
+        }
+
+        $task->changename($command->name);
+
+        if (!$this->repository->update($task)) {
+            throw TaskNotFoundException::withId($task->id()->toInt());
         }
     }
 }
