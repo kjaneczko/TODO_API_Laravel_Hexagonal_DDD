@@ -13,6 +13,5 @@ it ('complete task', function () {
     $response = patchJson('/api/tasks/' . $model->id . '/complete');
     $response->assertOk();
 
-    // in database boolean is saved as tinyint
     $this->assertDatabaseHas('tasks', ['id' => $model->id, 'completed' => true]);
 });
