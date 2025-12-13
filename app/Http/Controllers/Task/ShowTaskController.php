@@ -8,7 +8,6 @@ use App\Architecture\Task\ShowTaskHandler;
 use App\Domain\Task\TaskId;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\TaskResource;
-use App\Infrastructure\Task\TaskPersistenceMapper;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 

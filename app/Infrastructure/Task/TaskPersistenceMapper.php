@@ -21,7 +21,7 @@ final class TaskPersistenceMapper
     public static function toPersistence(Task $task): array
     {
         return [
-            'id'        => $task->id()->toInt(),   // jeśli id jest generowane w DB, ten klucz można pominąć
+            'id'        => $task->id()?->toInt(),   // jeśli id jest generowane w DB, ten klucz można pominąć
             'name'      => $task->name(),
             'position'  => $task->position(),
             'completed' => $task->completed(),

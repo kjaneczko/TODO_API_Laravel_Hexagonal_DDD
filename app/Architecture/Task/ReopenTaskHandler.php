@@ -13,15 +13,16 @@ readonly class ReopenTaskHandler
 
     public function __invoke(ReopenTaskCommand $command): void
     {
-        $task = $this->repository->findById($command->id->toInt());
+        $task = $this->repository->findById($command->id);
 
         if (!$task) {
-            throw TaskNotFoundException::withId($command->id->toInt());
+            throw TaskNotFoundException::withId($command->id);
         }
 
         $task->reopen();
+
         if (!$this->repository->update($task)) {
-            throw TaskNotFoundException::withId($task->id()->toInt());
+            throw TaskNotFoundException::withId($task->id());
         }
     }
 }

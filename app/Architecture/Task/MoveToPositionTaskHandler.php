@@ -13,12 +13,15 @@ readonly class MoveToPositionTaskHandler
 
     public function __invoke(MoveToPositionTaskCommand $command): void
     {
-        $task = $this->repository->findById($command->id->toInt());
+        $task = $this->repository->findById($command->id);
         if (!$task) {
-            throw TaskNotFoundException::withId($command->id->toInt());
+            throw TaskNotFoundException::withId($command->id);
         }
 
         $task->moveToPosition($command->position);
-        $this->repository->update($task);
+
+        if (!$this->repository->update($task)) {
+            throw TaskNotFoundException::withId($task->id());
+        }
     }
 }

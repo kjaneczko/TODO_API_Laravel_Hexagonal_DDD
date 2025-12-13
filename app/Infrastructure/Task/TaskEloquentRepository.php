@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Infrastructure\Task;
 
 use App\Domain\Task\Task;
+use App\Domain\Task\TaskId;
 use App\Domain\Task\TaskRepository;
 use App\Infrastructure\Exception\DatabaseException;
 use App\Models\TaskModel;
@@ -14,14 +15,12 @@ class TaskEloquentRepository implements TaskRepository
     /**
      * @throws DatabaseException
      */
-    public function create(string $name, int $position, bool $completed): Task
+    public function create(Task $task): Task
     {
         try {
-            $model = TaskModel::create([
-                'name' => $name,
-                'position' => $position,
-                'completed' => $completed,
-            ]);
+            $attributes = TaskPersistenceMapper::toPersistence($task);
+            unset($attributes['id']);
+            $model = TaskModel::create($attributes);
         }
         catch (QueryException $e) {
             throw DatabaseException::failedToSave($e);
@@ -34,9 +33,9 @@ class TaskEloquentRepository implements TaskRepository
         return TaskPersistenceMapper::toDomain($model);
     }
 
-    public function findById(int $id): Task|null
+    public function findById(TaskId $id): Task|null
     {
-        $model = TaskModel::find($id);
+        $model = TaskModel::find($id->toInt());
 
         if (!$model) {
             return null;
@@ -78,10 +77,10 @@ class TaskEloquentRepository implements TaskRepository
     /**
      * @throws DatabaseException
      */
-    public function delete(int $id): bool
+    public function delete(TaskId $id): bool
     {
         try {
-            $result = (bool)TaskModel::whereKey($id)->delete();
+            $result = (bool)TaskModel::whereKey($id->toInt())->delete();
         }
         catch (QueryException $e) {
             throw DatabaseException::failedToDelete($e);

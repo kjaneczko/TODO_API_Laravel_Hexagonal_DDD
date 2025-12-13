@@ -13,13 +13,15 @@ readonly class RenameTaskHandler
 
     public function __invoke(RenameTaskCommand $command): void
     {
-        $task = $this->repository->findById($command->id->toInt());
+        $task = $this->repository->findById($command->id);
         if (!$task) {
-            throw TaskNotFoundException::withId($command->id->toInt());
+            throw TaskNotFoundException::withId($command->id);
         }
 
         $task->rename($command->name);
 
-        $this->repository->update($task);
+        if (!$this->repository->update($task)) {
+            throw TaskNotFoundException::withId($task->id());
+        }
     }
 }

@@ -36,11 +36,6 @@ final class Task
         return $this->id;
     }
 
-    public function setId(TaskId $id): void
-    {
-        $this->id = $id;
-    }
-
     public function name(): string
     {
         return $this->name;

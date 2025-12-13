@@ -17,8 +17,8 @@ readonly class DeleteTaskHandler
      */
     public function __invoke(DeleteTaskCommand $command): void
     {
-        if (!$this->repository->delete($command->id->toInt())) {
-            throw TaskNotFoundException::withId($command->id->toInt());
+        if (!$this->repository->delete($command->id)) {
+            throw TaskNotFoundException::withId($command->id);
         }
     }
 }

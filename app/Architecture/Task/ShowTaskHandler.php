@@ -16,11 +16,11 @@ readonly class ShowTaskHandler
     /**
      * @throws TaskNotFoundException
      */
-    public function __invoke(ShowTaskCommand $command): Task|null
+    public function __invoke(ShowTaskCommand $command): Task
     {
-        $task = $this->repository->findById($command->id->toInt());
+        $task = $this->repository->findById($command->id);
         if (!$task) {
-            throw TaskNotFoundException::withId($command->id->toInt());
+            throw TaskNotFoundException::withId($command->id);
         }
         return $task;
     }

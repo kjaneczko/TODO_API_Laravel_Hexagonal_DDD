@@ -5,9 +5,9 @@ namespace App\Domain\Task;
 
 interface TaskRepository
 {
-    public function create(string $name, int $position, bool $completed): Task;
+    public function create(Task $task): Task;
 
-    public function findById(int $id): Task|null;
+    public function findById(TaskId $id): Task|null;
 
     /**
      * @return Task[]
@@ -16,5 +16,5 @@ interface TaskRepository
 
     public function update(Task $task): bool;
 
-    public function delete(int $id): bool;
+    public function delete(TaskId $id): bool;
 }
