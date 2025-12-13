@@ -17,12 +17,14 @@ readonly class UpdateTaskHandler
      */
     public function __invoke(UpdateTaskCommand $command): void
     {
-        $task = $this->repository->findById($command->id);
+        $task = $this->repository->findById($command->id->toInt());
         if (!$task) {
-            throw TaskNotFoundException::withId($command->id);
+            throw TaskNotFoundException::withId($command->id->toInt());
         }
 
-        $task->changename($command->name);
+        $task->rename($command->name);
+        $command->completed ? $task->complete() : $task->reopen();
+        $task->moveToPosition($command->position);
 
         if (!$this->repository->update($task)) {
             throw TaskNotFoundException::withId($task->id()->toInt());

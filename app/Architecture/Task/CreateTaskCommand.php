@@ -7,5 +7,7 @@ readonly class CreateTaskCommand
 {
     public function __construct(
         public string $name,
+        public int $position,
+        public bool $completed,
     ) {}
 }

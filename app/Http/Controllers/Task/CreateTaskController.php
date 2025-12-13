@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Task;
 
 use App\Architecture\Task\CreateTaskCommand;
 use App\Architecture\Task\CreateTaskHandler;
-use App\Domain\Task\Task;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -20,15 +19,18 @@ class CreateTaskController extends Controller
     {
         $request->validate([
             'name' => 'required|min:1|max:255',
+            'position' => 'integer|min:0|max:255',
+            'completed' => 'boolean',
         ]);
 
-        $command = new CreateTaskCommand($request->get('name'));
+        $command = new CreateTaskCommand(
+            name: $request->get('name'),
+            position: $request->get('position', 0),
+            completed: $request->get('completed', false),
+        );
 
         $task = $handler($command);
 
-        return response()->json([
-            'id' => $task->id()->toInt(),
-            'name' => $task->name(),
-        ], Response::HTTP_CREATED);
+        return response()->json($task->mapToArray(), Response::HTTP_CREATED);
     }
 }

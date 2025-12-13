@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace App\Infrastructure\Task;
 
 use App\Domain\Task\Task;
-use App\Domain\Task\TaskId;
 use App\Domain\Task\TaskRepository;
 use App\Infrastructure\Exception\DatabaseException;
 use App\Models\TaskModel;
@@ -15,11 +14,13 @@ class TaskEloquentRepository implements TaskRepository
     /**
      * @throws DatabaseException
      */
-    public function create(string $name): Task
+    public function create(string $name, int $position, bool $completed): Task
     {
         try {
             $model = TaskModel::create([
                 'name' => $name,
+                'position' => $position,
+                'completed' => $completed,
             ]);
         }
         catch (QueryException $e) {
@@ -30,7 +31,7 @@ class TaskEloquentRepository implements TaskRepository
             throw DatabaseException::failedToSave();
         }
 
-        return $this->mapToDomain($model);
+        return $model->mapToDomain();
     }
 
     public function findById(int $id): Task|null
@@ -41,7 +42,7 @@ class TaskEloquentRepository implements TaskRepository
             return null;
         }
 
-        return $this->mapToDomain($model);
+        return $model->mapToDomain();
     }
 
     public function findAll(int $page, int $limit): array
@@ -52,7 +53,7 @@ class TaskEloquentRepository implements TaskRepository
             ->take($limit)
             ->orderBy('id')
             ->get()
-            ->map(fn ($model) => $this->mapToDomain($model))
+            ->map(fn ($model) => $model->mapToDomain())
             ->all();
     }
 
@@ -62,9 +63,7 @@ class TaskEloquentRepository implements TaskRepository
     public function update(Task $task): bool
     {
         try {
-            $result = (bool)TaskModel::whereKey($task->id()->toInt())->update([
-                'name' => $task->name(),
-            ]);
+            $result = (bool)TaskModel::whereKey($task->id()->toInt())->update($task->mapToArray(excludeId: true));
         }
         catch (QueryException $e) {
             throw DatabaseException::failedToUpdate($e);
@@ -86,13 +85,5 @@ class TaskEloquentRepository implements TaskRepository
         }
 
         return $result;
-    }
-
-    private function mapToDomain(TaskModel $task): Task
-    {
-        return Task::reconstitute(
-            id: new TaskId($task->id),
-            name: $task->name,
-        );
     }
 }

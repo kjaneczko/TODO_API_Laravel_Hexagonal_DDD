@@ -1,24 +1,18 @@
 <?php
 declare(strict_types=1);
 
+use App\Models\TaskModel;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use function Pest\Laravel\deleteJson;
-use function Pest\Laravel\postJson;
 
 uses(RefreshDatabase::class);
 
 it('delete task', function () {
-    // 1. Create new task
-    $name = 'test task';
-    $response = postJson('/api/tasks', ['name' => $name]);
-    $response->assertCreated();
-    $id = $response->json('id');
+    $model = TaskModel::factory()->create();
+    $this->assertDatabaseHas('tasks', ['id' => $model->id, 'name' => $model->name, 'position' => $model->position, 'completed' => $model->completed]);
 
-    $this->assertDatabaseHas('tasks', ['id' => $id, 'name' => $name]);
-
-    // 2. delete task
-    $response = deleteJson('/api/tasks/'.$id);
+    $response = deleteJson('/api/tasks/'.$model->id);
     $response->assertOk();
 
-    $this->assertDatabaseMissing('tasks', ['id' => $id]);
+    $this->assertDatabaseMissing('tasks', ['id' => $model->id]);
 });

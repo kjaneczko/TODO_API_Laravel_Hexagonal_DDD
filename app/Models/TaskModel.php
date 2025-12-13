@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Domain\Task\Task;
+use App\Domain\Task\TaskId;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -14,8 +16,10 @@ use Illuminate\Database\Eloquent\Model;
  * @method static create(array $array)
  * @method static where(string $string, int $toInt)
  * @method static whereKey(int $toInt)
- * @property string $name
  * @property int $id
+ * @property string $name
+ * @property int $position
+ * @property bool $completed
  */
 class TaskModel extends Model
 {
@@ -23,5 +27,15 @@ class TaskModel extends Model
     use HasFactory;
 
     protected $table = 'tasks';
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'position', 'completed'];
+
+    public function mapToDomain(): Task
+    {
+        return Task::reconstitute(
+            id: new TaskId($this->id),
+            name: $this->name,
+            position: $this->position,
+            completed: (bool)$this->completed,
+        );
+    }
 }

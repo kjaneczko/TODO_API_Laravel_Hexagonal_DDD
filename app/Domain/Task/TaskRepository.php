@@ -3,11 +3,9 @@ declare(strict_types=1);
 
 namespace App\Domain\Task;
 
-use App\Models\TaskModel;
-
 interface TaskRepository
 {
-    public function create(string $name): Task;
+    public function create(string $name, int $position, bool $completed): Task;
 
     public function findById(int $id): Task|null;
 

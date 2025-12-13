@@ -19,6 +19,8 @@ class TaskModelFactory extends Factory
     {
         return [
             'name' => $this->faker->sentence(),
+            'position' => 0,
+            'completed' => false,
         ];
     }
 }

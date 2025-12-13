@@ -1,25 +1,18 @@
 <?php
 declare(strict_types=1);
 
+use App\Models\TaskModel;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use function Pest\Laravel\patchJson;
-use function Pest\Laravel\postJson;
 
 uses(RefreshDatabase::class);
 
 it('update task', function () {
-    // 1. Create new task
-    $name = 'test task';
-    $response = postJson('/api/tasks', ['name' => $name]);
-    $response->assertCreated();
-    $id = $response->json('id');
+    $model = TaskModel::factory()->create();
 
-    $this->assertDatabaseHas('tasks', ['id' => $id, 'name' => $name]);
-
-    // 2. Update task name
     $name = 'updated name';
-    $response = patchJson('/api/tasks', ['id' => $id, 'name' => $name]);
+    $response = patchJson('/api/tasks/'.$model->id, ['name' => $name, 'position' => 2, 'completed' => true]);
     $response->assertOk();
 
-    $this->assertDatabaseHas('tasks', ['id' => $id, 'name' => $name]);
+    $this->assertDatabaseHas('tasks', ['id' => $model->id, 'name' => $name, 'position' => 2, 'completed' => true]);
 });

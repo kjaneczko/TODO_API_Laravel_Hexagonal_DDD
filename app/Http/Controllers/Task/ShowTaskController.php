@@ -17,8 +17,6 @@ class ShowTaskController extends Controller
         ShowTaskHandler $handler,
     ): JsonResponse
     {
-
-
         $command = new ShowTaskCommand(new TaskId($id));
 
         $task = $handler($command);
@@ -27,9 +25,6 @@ class ShowTaskController extends Controller
             return response()->json([], Response::HTTP_NOT_FOUND);
         }
 
-        return response()->json([
-            'id' => $task->id()->toInt(),
-            'name' => $task->name(),
-        ], Response::HTTP_OK);
+        return response()->json($task->mapToArray(), Response::HTTP_OK);
     }
 }

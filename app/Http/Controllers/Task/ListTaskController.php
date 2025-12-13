@@ -27,10 +27,7 @@ class ListTaskController extends Controller
 
         $command = new ListTaskCommand((int)$page, (int)$limit);
 
-        $tasks = array_map(fn ($task) => [
-            'id' => $task->id()->toInt(),
-            'name' => $task->name(),
-        ], $handler($command));
+        $tasks = array_map(fn ($task) => $task->mapToArray(), $handler($command));
 
         return response()->json($tasks, Response::HTTP_OK);
     }
