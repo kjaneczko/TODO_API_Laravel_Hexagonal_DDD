@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Task;
 
-class Task
+final class Task
 {
     private function __construct(
         private ?TaskId $id,
@@ -74,21 +74,5 @@ class Task
     public function moveToPosition(int $position): void
     {
         $this->position = $position;
-    }
-
-    public function mapToArray(bool $excludeId = false): array
-    {
-        $array = [
-            'id' => $this->id()->toInt(),
-            'name' => $this->name(),
-            'position' => $this->position(),
-            'completed' => $this->completed(),
-        ];
-
-        if ($excludeId) {
-            unset($array['id']);
-        }
-
-        return $array;
     }
 }

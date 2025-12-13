@@ -6,6 +6,8 @@ namespace App\Http\Controllers\Task;
 use App\Architecture\Task\ListTaskCommand;
 use App\Architecture\Task\ListTaskHandler;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\TaskResource;
+use App\Infrastructure\Task\TaskPersistenceMapper;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -27,8 +29,10 @@ class ListTaskController extends Controller
 
         $command = new ListTaskCommand((int)$page, (int)$limit);
 
-        $tasks = array_map(fn ($task) => $task->mapToArray(), $handler($command));
+        $tasks = $handler($command);
 
-        return response()->json($tasks, Response::HTTP_OK);
+        return TaskResource::collection($tasks)
+            ->response()
+            ->setStatusCode(Response::HTTP_OK);
     }
 }

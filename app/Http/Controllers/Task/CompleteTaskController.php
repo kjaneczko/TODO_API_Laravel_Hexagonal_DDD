@@ -7,14 +7,12 @@ use App\Architecture\Task\CompleteTaskHandler;
 use App\Domain\Task\TaskId;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class CompleteTaskController extends Controller
 {
     public function __invoke(
         int $id,
-        Request $request,
         CompleteTaskHandler $handler,
     ): JsonResponse
     {

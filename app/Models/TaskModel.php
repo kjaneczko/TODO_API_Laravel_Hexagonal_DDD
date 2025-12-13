@@ -28,14 +28,4 @@ class TaskModel extends Model
 
     protected $table = 'tasks';
     protected $fillable = ['name', 'position', 'completed'];
-
-    public function mapToDomain(): Task
-    {
-        return Task::reconstitute(
-            id: new TaskId($this->id),
-            name: $this->name,
-            position: $this->position,
-            completed: (bool)$this->completed,
-        );
-    }
 }

@@ -31,7 +31,7 @@ class TaskEloquentRepository implements TaskRepository
             throw DatabaseException::failedToSave();
         }
 
-        return $model->mapToDomain();
+        return TaskPersistenceMapper::toDomain($model);
     }
 
     public function findById(int $id): Task|null
@@ -42,7 +42,7 @@ class TaskEloquentRepository implements TaskRepository
             return null;
         }
 
-        return $model->mapToDomain();
+        return TaskPersistenceMapper::toDomain($model);
     }
 
     public function findAll(int $page, int $limit): array
@@ -53,7 +53,7 @@ class TaskEloquentRepository implements TaskRepository
             ->take($limit)
             ->orderBy('id')
             ->get()
-            ->map(fn ($model) => $model->mapToDomain())
+            ->map(fn ($model) => TaskPersistenceMapper::toDomain($model))
             ->all();
     }
 
@@ -62,8 +62,11 @@ class TaskEloquentRepository implements TaskRepository
      */
     public function update(Task $task): bool
     {
+        $attributes = TaskPersistenceMapper::toPersistence($task);
+        unset($attributes['id']);
+
         try {
-            $result = (bool)TaskModel::whereKey($task->id()->toInt())->update($task->mapToArray(excludeId: true));
+            $result = (bool)TaskModel::whereKey($task->id()->toInt())->update($attributes);
         }
         catch (QueryException $e) {
             throw DatabaseException::failedToUpdate($e);

@@ -13,7 +13,7 @@ it('lists tasks', function () {
     $response = getJson('/api/tasks');
     $response->assertOk();
 
-    $response->assertJsonCount(5);
+    $response->assertJsonCount(5, 'data');
 
     $response->assertJsonFragment([
         'id' => $models[2]->id,
@@ -27,7 +27,7 @@ it('lists two from second page tasks', function () {
     $response = getJson('/api/tasks?page=2&limit=2');
     $response->assertOk();
 
-    $response->assertJsonCount(2);
+    $response->assertJsonCount(2, 'data');
 
     $response->assertJsonFragment([
         'id' => $models[3]->id,

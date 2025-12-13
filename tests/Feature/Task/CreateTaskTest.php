@@ -14,13 +14,13 @@ it('create task', function () {
         'completed' => true,
     ]);
     $response->assertCreated();
-    $id = $response->json('id');
+    $id = $response->json('data')['id'];
 
     $this->assertDatabaseHas('tasks', [
         'id' => $id,
         'name' => $name,
         'position' => 1,
-        'completed' => true,
+        'completed' => 1,
     ]);
 });
 

@@ -6,6 +6,8 @@ namespace App\Http\Controllers\Task;
 use App\Architecture\Task\CreateTaskCommand;
 use App\Architecture\Task\CreateTaskHandler;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\TaskResource;
+use App\Infrastructure\Task\TaskPersistenceMapper;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -31,6 +33,8 @@ class CreateTaskController extends Controller
 
         $task = $handler($command);
 
-        return response()->json($task->mapToArray(), Response::HTTP_CREATED);
+        return (new TaskResource($task))
+            ->response()
+            ->setStatusCode(Response::HTTP_CREATED);
     }
 }

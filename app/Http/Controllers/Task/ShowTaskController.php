@@ -7,6 +7,8 @@ use App\Architecture\Task\ShowTaskCommand;
 use App\Architecture\Task\ShowTaskHandler;
 use App\Domain\Task\TaskId;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\TaskResource;
+use App\Infrastructure\Task\TaskPersistenceMapper;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -21,10 +23,8 @@ class ShowTaskController extends Controller
 
         $task = $handler($command);
 
-        if (!$task) {
-            return response()->json([], Response::HTTP_NOT_FOUND);
-        }
-
-        return response()->json($task->mapToArray(), Response::HTTP_OK);
+        return (new TaskResource($task))
+            ->response()
+            ->setStatusCode(Response::HTTP_OK);
     }
 }
