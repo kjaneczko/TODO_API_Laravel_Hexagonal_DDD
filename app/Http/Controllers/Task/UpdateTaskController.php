@@ -4,8 +4,6 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Task;
 
 use App\Architecture\Task\Command\UpdateTaskCommand;
-use App\Architecture\Task\Exception\TaskNotFoundException;
-use App\Architecture\Task\Handler\UpdateTaskHandler;
 use App\Architecture\Task\Interface\TaskServiceInterface;
 use App\Domain\Task\TaskId;
 use App\Http\Controllers\Controller;
@@ -15,9 +13,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class UpdateTaskController extends Controller
 {
-    /**
-     * @throws TaskNotFoundException
-     */
     public function __invoke(
         int $id,
         Request $request,
@@ -33,8 +28,8 @@ class UpdateTaskController extends Controller
         $command = new UpdateTaskCommand(
             id: new TaskId($id),
             name: $request->get('name'),
-            position: $request->get('position', 0),
-            completed: $request->get('completed', false),
+            position: $request->integer('position', 0),
+            completed: $request->boolean('completed', false),
         );
 
         $service->update($command);

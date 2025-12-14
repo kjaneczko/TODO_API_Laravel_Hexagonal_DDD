@@ -39,6 +39,9 @@ final class Task
         bool $completed,
     ): self
     {
+        self::assertValidName($name);
+        self::assertValidPosition($position);
+
         return new self($id, $name, $position, $completed);
     }
 

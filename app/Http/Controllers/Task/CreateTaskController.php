@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Task;
 
 use App\Architecture\Task\Command\CreateTaskCommand;
-use App\Architecture\Task\Handler\CreateTaskHandler;
 use App\Architecture\Task\Interface\TaskServiceInterface;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\TaskResource;
@@ -27,8 +26,8 @@ class CreateTaskController extends Controller
 
         $command = new CreateTaskCommand(
             name: $request->get('name'),
-            position: $request->get('position', 0),
-            completed: $request->get('completed', false),
+            position: $request->integer('position', 0),
+            completed: $request->boolean('completed', false),
         );
 
         $task = $service->create($command);

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Task;
 
 use App\Architecture\Task\Command\ReopenTaskCommand;
-use App\Architecture\Task\Handler\ReopenTaskHandler;
 use App\Architecture\Task\Interface\TaskServiceInterface;
 use App\Domain\Task\TaskId;
 use App\Http\Controllers\Controller;

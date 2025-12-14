@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Task;
 
 use App\Architecture\Task\Command\RenameTaskCommand;
-use App\Architecture\Task\Handler\RenameTaskHandler;
 use App\Architecture\Task\Interface\TaskServiceInterface;
 use App\Domain\Task\TaskId;
 use App\Http\Controllers\Controller;

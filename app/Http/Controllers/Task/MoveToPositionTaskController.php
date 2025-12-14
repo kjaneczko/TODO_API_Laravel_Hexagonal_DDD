@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Task;
 
 use App\Architecture\Task\Command\MoveToPositionTaskCommand;
-use App\Architecture\Task\Handler\MoveToPositionTaskHandler;
 use App\Architecture\Task\Interface\TaskServiceInterface;
 use App\Domain\Task\TaskId;
 use App\Http\Controllers\Controller;
@@ -25,7 +24,7 @@ class MoveToPositionTaskController extends Controller
 
         $command = new MoveToPositionTaskCommand(
             new TaskId($id),
-            $request->get('position'),
+            $request->integer('position'),
         );
 
         $service->moveToPosition($command);

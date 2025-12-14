@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Task;
 
 use App\Architecture\Shared\Query\PageRequest;
 use App\Architecture\Task\Command\ListTaskCommand;
-use App\Architecture\Task\Handler\ListTaskHandler;
 use App\Architecture\Task\Interface\TaskServiceInterface;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\TaskResource;
@@ -25,10 +24,10 @@ class ListTaskController extends Controller
             'limit' => 'integer|min:1|max:100',
         ]);
 
-        $page = $request->get('page') ?: 1;
-        $limit = $request->get('limit') ?: 100;
+        $page = $request->integer('page') ?: 1;
+        $limit = $request->integer('limit') ?: 100;
 
-        $command = new ListTaskCommand(new PageRequest((int)$page, (int)$limit));
+        $command = new ListTaskCommand(new PageRequest($page, $limit));
 
         $tasks = $service->list($command);
 

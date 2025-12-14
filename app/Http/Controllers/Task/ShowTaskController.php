@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Task;
 
 use App\Architecture\Task\Command\ShowTaskCommand;
-use App\Architecture\Task\Handler\ShowTaskHandler;
 use App\Architecture\Task\Interface\TaskServiceInterface;
 use App\Domain\Task\TaskId;
 use App\Http\Controllers\Controller;
