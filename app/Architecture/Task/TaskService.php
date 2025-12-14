@@ -42,9 +42,9 @@ final readonly class TaskService implements TaskServiceInterface
         return ($this->list)($command);
     }
 
-    public function update(UpdateTaskCommand $command): Task
+    public function update(UpdateTaskCommand $command): void
     {
-        return ($this->update)($command);
+        ($this->update)($command);
     }
 
     public function delete(DeleteTaskCommand $command): void

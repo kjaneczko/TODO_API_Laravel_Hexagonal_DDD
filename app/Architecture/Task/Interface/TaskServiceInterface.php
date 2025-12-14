@@ -22,7 +22,7 @@ interface TaskServiceInterface
     /** @return Task[] */
     public function list(ListTaskCommand $command): array;
 
-    public function update(UpdateTaskCommand $command): Task;
+    public function update(UpdateTaskCommand $command): void;
 
     public function delete(DeleteTaskCommand $command): void;
 
