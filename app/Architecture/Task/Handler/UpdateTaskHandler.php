@@ -13,9 +13,6 @@ readonly class UpdateTaskHandler
         private TaskExecutor $executor,
     ) {}
 
-    /**
-     * @throws TaskNotFoundException
-     */
     public function __invoke(UpdateTaskCommand $command): void
     {
         $task = $this->executor->getOrFail($command->id);

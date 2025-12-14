@@ -13,9 +13,6 @@ readonly class DeleteTaskHandler
         private TaskExecutor $executor,
     ) {}
 
-    /**
-     * @throws TaskNotFoundException
-     */
     public function __invoke(DeleteTaskCommand $command): void
     {
         $this->executor->deleteOrFail($command->id);
