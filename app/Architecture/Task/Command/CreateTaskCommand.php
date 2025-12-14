@@ -1,14 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Architecture\Task;
+namespace App\Architecture\Task\Command;
 
-use App\Domain\Task\TaskId;
-
-readonly class UpdateTaskCommand
+readonly class CreateTaskCommand
 {
     public function __construct(
-        public TaskId $id,
         public string $name,
         public int $position,
         public bool $completed,

@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace App\Domain\Task;
 
+use App\Domain\Task\Exception\TaskValidationException;
+
 final class Task
 {
     private function __construct(
@@ -18,7 +20,16 @@ final class Task
         bool $completed = false,
     ): self
     {
-        return new self(null, $name, $position, $completed);
+        self::assertValidName($name);
+        self::assertValidPosition($position);
+        self::assertNewTaskCompletion($completed);
+
+        return new self(
+            id: null,
+            name: $name,
+            position: $position,
+            completed: $completed
+        );
     }
 
     public static function reconstitute(
@@ -43,6 +54,8 @@ final class Task
 
     public function rename(string $name): void
     {
+        self::assertValidName($name);
+
         $this->name = $name;
     }
 
@@ -68,6 +81,32 @@ final class Task
 
     public function moveToPosition(int $position): void
     {
+        self::assertValidPosition($position);
         $this->position = $position;
+    }
+
+    private static function assertValidName(?string $name): void
+    {
+        if (!$name || trim($name) === '') {
+            throw new TaskValidationException('Task name cannot be empty');
+        }
+
+        if (mb_strlen($name) > 255) {
+            throw new TaskValidationException('Task name cannot be longer than 255 characters');
+        }
+    }
+
+    private static function assertValidPosition(int $position): void
+    {
+        if ($position < 0) {
+            throw new TaskValidationException('Task position must be greater or equal 0');
+        }
+    }
+
+    private static function assertNewTaskCompletion(bool $completed): void
+    {
+        if ($completed) {
+            throw new TaskValidationException('New task cannot be completed initially.');
+        }
     }
 }

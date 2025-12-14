@@ -3,14 +3,15 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Task;
 
+use App\Architecture\Shared\Query\PageRequest;
+use App\Domain\Task\Interface\TaskRepositoryInterface;
 use App\Domain\Task\Task;
 use App\Domain\Task\TaskId;
-use App\Domain\Task\TaskRepository;
 use App\Infrastructure\Exception\DatabaseException;
 use App\Models\TaskModel;
 use Illuminate\Database\QueryException;
 
-class TaskEloquentRepository implements TaskRepository
+class TaskEloquentRepository implements TaskRepositoryInterface
 {
     /**
      * @throws DatabaseException
@@ -19,7 +20,6 @@ class TaskEloquentRepository implements TaskRepository
     {
         try {
             $attributes = TaskPersistenceMapper::toPersistence($task);
-            unset($attributes['id']);
             $model = TaskModel::create($attributes);
         }
         catch (QueryException $e) {
@@ -44,12 +44,12 @@ class TaskEloquentRepository implements TaskRepository
         return TaskPersistenceMapper::toDomain($model);
     }
 
-    public function findAll(int $page, int $limit): array
+    public function findAll(PageRequest $pageRequest): array
     {
-        $offset = ($page - 1) * $limit;
+        $offset = ($pageRequest->page - 1) * $pageRequest->limit;
 
         return TaskModel::skip($offset)
-            ->take($limit)
+            ->take($pageRequest->limit)
             ->orderBy('id')
             ->get()
             ->map(fn ($model) => TaskPersistenceMapper::toDomain($model))
@@ -62,7 +62,6 @@ class TaskEloquentRepository implements TaskRepository
     public function update(Task $task): bool
     {
         $attributes = TaskPersistenceMapper::toPersistence($task);
-        unset($attributes['id']);
 
         try {
             $result = (bool)TaskModel::whereKey($task->id()->toInt())->update($attributes);

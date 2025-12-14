@@ -3,9 +3,10 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Task;
 
+use App\Architecture\Task\Command\UpdateTaskCommand;
 use App\Architecture\Task\Exception\TaskNotFoundException;
-use App\Architecture\Task\UpdateTaskCommand;
-use App\Architecture\Task\UpdateTaskHandler;
+use App\Architecture\Task\Handler\UpdateTaskHandler;
+use App\Architecture\Task\Interface\TaskServiceInterface;
 use App\Domain\Task\TaskId;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
@@ -19,24 +20,24 @@ class UpdateTaskController extends Controller
      */
     public function __invoke(
         int $id,
-        Request           $request,
-        UpdateTaskHandler $handler,
+        Request $request,
+        TaskServiceInterface $service,
     ): JsonResponse
     {
         $request->validate([
-            'name' => 'required|min:1|max:255',
-            'position' => 'integer|min:0|max:255',
+            'name' => 'required',
+            'position' => 'integer|max:255',
             'completed' => 'boolean',
         ]);
 
         $command = new UpdateTaskCommand(
             id: new TaskId($id),
             name: $request->get('name'),
-            position: $request->get('position', 1),
+            position: $request->get('position', 0),
             completed: $request->get('completed', false),
         );
 
-        $handler($command);
+        $service->update($command);
 
         return response()->json([], Response::HTTP_OK);
     }

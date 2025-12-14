@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Architecture\Task;
+namespace App\Architecture\Task\Command;
 
 use App\Domain\Task\TaskId;
 
-readonly class CompleteTaskCommand
+readonly class ReopenTaskCommand
 {
     public function __construct(
         public TaskId $id,

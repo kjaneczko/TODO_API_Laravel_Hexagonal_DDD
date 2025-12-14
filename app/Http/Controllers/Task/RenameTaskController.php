@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\Task;
 
-use App\Architecture\Task\RenameTaskCommand;
-use App\Architecture\Task\RenameTaskHandler;
+use App\Architecture\Task\Command\RenameTaskCommand;
+use App\Architecture\Task\Handler\RenameTaskHandler;
+use App\Architecture\Task\Interface\TaskServiceInterface;
 use App\Domain\Task\TaskId;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
@@ -15,7 +16,7 @@ class RenameTaskController extends Controller
     public function __invoke(
         int $id,
         Request $request,
-        RenameTaskHandler $handler,
+        TaskServiceInterface $service,
     ): JsonResponse
     {
         $request->validate([
@@ -27,7 +28,7 @@ class RenameTaskController extends Controller
             $request->get('name'),
         );
 
-        $handler($command);
+        $service->rename($command);
 
         return response()->json([], Response::HTTP_OK);
     }

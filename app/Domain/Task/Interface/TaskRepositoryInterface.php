@@ -1,9 +1,13 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Domain\Task;
+namespace App\Domain\Task\Interface;
 
-interface TaskRepository
+use App\Architecture\Shared\Query\PageRequest;
+use App\Domain\Task\Task;
+use App\Domain\Task\TaskId;
+
+interface TaskRepositoryInterface
 {
     public function create(Task $task): Task;
 
@@ -12,7 +16,7 @@ interface TaskRepository
     /**
      * @return Task[]
      */
-    public function findAll(int $page, int $limit): array;
+    public function findAll(PageRequest $pageRequest): array;
 
     public function update(Task $task): bool;
 

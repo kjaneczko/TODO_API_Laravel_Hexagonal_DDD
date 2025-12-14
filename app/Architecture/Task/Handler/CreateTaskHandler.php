@@ -1,15 +1,16 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Architecture\Task;
+namespace App\Architecture\Task\Handler;
 
+use App\Architecture\Task\Command\CreateTaskCommand;
+use App\Domain\Task\Interface\TaskRepositoryInterface;
 use App\Domain\Task\Task;
-use App\Domain\Task\TaskRepository;
 
 readonly class CreateTaskHandler
 {
     public function __construct(
-        private TaskRepository $repository,
+        private TaskRepositoryInterface $repository,
     ) {}
 
     public function __invoke(CreateTaskCommand $command): Task

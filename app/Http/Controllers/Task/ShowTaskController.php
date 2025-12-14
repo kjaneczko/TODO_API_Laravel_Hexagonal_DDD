@@ -3,8 +3,9 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Task;
 
-use App\Architecture\Task\ShowTaskCommand;
-use App\Architecture\Task\ShowTaskHandler;
+use App\Architecture\Task\Command\ShowTaskCommand;
+use App\Architecture\Task\Handler\ShowTaskHandler;
+use App\Architecture\Task\Interface\TaskServiceInterface;
 use App\Domain\Task\TaskId;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\TaskResource;
@@ -14,13 +15,11 @@ use Symfony\Component\HttpFoundation\Response;
 class ShowTaskController extends Controller
 {
     public function __invoke(
-        int $id,
-        ShowTaskHandler $handler,
+        int                  $id,
+        TaskServiceInterface $service,
     ): JsonResponse
     {
-        $command = new ShowTaskCommand(new TaskId($id));
-
-        $task = $handler($command);
+        $task = $service->show(new ShowTaskCommand(new TaskId($id)));
 
         return (new TaskResource($task))
             ->response()

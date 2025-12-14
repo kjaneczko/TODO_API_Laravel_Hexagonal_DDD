@@ -1,11 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Architecture\Task;
+namespace App\Architecture\Task\Command;
 
 use App\Domain\Task\TaskId;
 
-readonly class ShowTaskCommand
+readonly class DeleteTaskCommand
 {
     public function __construct(
         public TaskId $id

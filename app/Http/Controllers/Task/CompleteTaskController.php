@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\Task;
 
-use App\Architecture\Task\CompleteTaskCommand;
-use App\Architecture\Task\CompleteTaskHandler;
+use App\Architecture\Task\Command\CompleteTaskCommand;
+use App\Architecture\Task\Handler\CompleteTaskHandler;
+use App\Architecture\Task\Interface\TaskServiceInterface;
 use App\Domain\Task\TaskId;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
@@ -13,12 +14,10 @@ class CompleteTaskController extends Controller
 {
     public function __invoke(
         int $id,
-        CompleteTaskHandler $handler,
+        TaskServiceInterface $service,
     ): JsonResponse
     {
-        $command = new CompleteTaskCommand(new TaskId($id));
-
-        $handler($command);
+        $service->complete(new CompleteTaskCommand(new TaskId($id)));
 
         return response()->json([], Response::HTTP_OK);
     }

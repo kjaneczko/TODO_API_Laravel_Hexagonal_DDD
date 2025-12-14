@@ -3,8 +3,10 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Task;
 
-use App\Architecture\Task\ListTaskCommand;
-use App\Architecture\Task\ListTaskHandler;
+use App\Architecture\Shared\Query\PageRequest;
+use App\Architecture\Task\Command\ListTaskCommand;
+use App\Architecture\Task\Handler\ListTaskHandler;
+use App\Architecture\Task\Interface\TaskServiceInterface;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\TaskResource;
 use Illuminate\Http\JsonResponse;
@@ -15,7 +17,7 @@ class ListTaskController extends Controller
 {
     public function __invoke(
         Request $request,
-        ListTaskHandler $handler,
+        TaskServiceInterface $service,
     ): JsonResponse
     {
         $request->validate([
@@ -26,9 +28,9 @@ class ListTaskController extends Controller
         $page = $request->get('page') ?: 1;
         $limit = $request->get('limit') ?: 100;
 
-        $command = new ListTaskCommand((int)$page, (int)$limit);
+        $command = new ListTaskCommand(new PageRequest((int)$page, (int)$limit));
 
-        $tasks = $handler($command);
+        $tasks = $service->list($command);
 
         return TaskResource::collection($tasks)
             ->response()

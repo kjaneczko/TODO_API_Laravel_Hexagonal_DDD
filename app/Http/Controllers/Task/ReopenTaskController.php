@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\Task;
 
-use App\Architecture\Task\ReopenTaskCommand;
-use App\Architecture\Task\ReopenTaskHandler;
+use App\Architecture\Task\Command\ReopenTaskCommand;
+use App\Architecture\Task\Handler\ReopenTaskHandler;
+use App\Architecture\Task\Interface\TaskServiceInterface;
 use App\Domain\Task\TaskId;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
@@ -13,12 +14,10 @@ class ReopenTaskController extends Controller
 {
     public function __invoke(
         int $id,
-        ReopenTaskHandler $handler,
+        TaskServiceInterface $service,
     ): JsonResponse
     {
-        $command = new ReopenTaskCommand(new TaskId($id));
-
-        $handler($command);
+        $service->reopen(new ReopenTaskCommand(new TaskId($id)));
 
         return response()->json([], Response::HTTP_OK);
     }

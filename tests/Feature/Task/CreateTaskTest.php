@@ -11,7 +11,7 @@ it('create task', function () {
     $response = postJson('/api/tasks', [
         'name' => $name,
         'position' => 1,
-        'completed' => true,
+        'completed' => false,
     ]);
     $response->assertCreated();
     $id = $response->json('data')['id'];
@@ -20,7 +20,7 @@ it('create task', function () {
         'id' => $id,
         'name' => $name,
         'position' => 1,
-        'completed' => 1,
+        'completed' => false,
     ]);
 });
 

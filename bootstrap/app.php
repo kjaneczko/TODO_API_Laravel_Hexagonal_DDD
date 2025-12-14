@@ -1,6 +1,7 @@
 <?php
 
 use App\Architecture\Task\Exception\TaskNotFoundException;
+use App\Domain\Task\Exception\TaskValidationException;
 use App\Infrastructure\Exception\DatabaseException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -22,6 +23,14 @@ return Application::configure(basePath: dirname(__DIR__))
                 'message' => $e->getMessage() ?: 'Task not found',
             ], 404);
         });
+
+        $exceptions->render(function (TaskValidationException $e) {
+            return response()->json(
+                ['error' => $e->getMessage()],
+                422
+            );
+        });
+
         $exceptions->render(function (DatabaseException $e) {
             return response()->json([
                 'message' => $e->getMessage() ?: 'Database error',

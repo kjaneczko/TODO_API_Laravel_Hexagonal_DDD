@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Architecture\Task;
+namespace App\Architecture\Task\Command;
 
 use App\Domain\Task\TaskId;
 

@@ -3,8 +3,9 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Task;
 
-use App\Architecture\Task\CreateTaskCommand;
-use App\Architecture\Task\CreateTaskHandler;
+use App\Architecture\Task\Command\CreateTaskCommand;
+use App\Architecture\Task\Handler\CreateTaskHandler;
+use App\Architecture\Task\Interface\TaskServiceInterface;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\TaskResource;
 use Illuminate\Http\JsonResponse;
@@ -15,12 +16,12 @@ class CreateTaskController extends Controller
 {
     public function __invoke(
         Request           $request,
-        CreateTaskHandler $handler,
+        TaskServiceInterface $service,
     ): JsonResponse
     {
         $request->validate([
-            'name' => 'required|min:1|max:255',
-            'position' => 'integer|min:0|max:255',
+            'name' => 'required',
+            'position' => 'integer|max:255',
             'completed' => 'boolean',
         ]);
 
@@ -30,7 +31,7 @@ class CreateTaskController extends Controller
             completed: $request->get('completed', false),
         );
 
-        $task = $handler($command);
+        $task = $service->create($command);
 
         return (new TaskResource($task))
             ->response()

@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\Task;
 
-use App\Architecture\Task\MoveToPositionTaskCommand;
-use App\Architecture\Task\MoveToPositionTaskHandler;
+use App\Architecture\Task\Command\MoveToPositionTaskCommand;
+use App\Architecture\Task\Handler\MoveToPositionTaskHandler;
+use App\Architecture\Task\Interface\TaskServiceInterface;
 use App\Domain\Task\TaskId;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
@@ -15,7 +16,7 @@ class MoveToPositionTaskController extends Controller
     public function __invoke(
         int $id,
         Request $request,
-        MoveToPositionTaskHandler $handler,
+        TaskServiceInterface $service,
     ): JsonResponse
     {
         $request->validate([
@@ -27,7 +28,7 @@ class MoveToPositionTaskController extends Controller
             $request->get('position'),
         );
 
-        $handler($command);
+        $service->moveToPosition($command);
 
         return response()->json([], Response::HTTP_OK);
     }

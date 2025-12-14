@@ -1,24 +1,26 @@
 <?php
 
-namespace App\Architecture\Task;
+namespace App\Architecture\Task\Handler;
 
+use App\Architecture\Task\Command\CompleteTaskCommand;
 use App\Architecture\Task\Exception\TaskNotFoundException;
-use App\Domain\Task\TaskRepository;
+use App\Domain\Task\Interface\TaskRepositoryInterface;
 
-readonly class MoveToPositionTaskHandler
+readonly class CompleteTaskHandler
 {
     public function __construct(
-        private TaskRepository $repository,
-    ){}
+        private TaskRepositoryInterface $repository,
+    ) {}
 
-    public function __invoke(MoveToPositionTaskCommand $command): void
+    public function __invoke(CompleteTaskCommand $command): void
     {
         $task = $this->repository->findById($command->id);
+
         if (!$task) {
             throw TaskNotFoundException::withId($command->id);
         }
 
-        $task->moveToPosition($command->position);
+        $task->complete();
 
         if (!$this->repository->update($task)) {
             throw TaskNotFoundException::withId($task->id());

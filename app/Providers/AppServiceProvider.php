@@ -3,7 +3,9 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
-use App\Domain\Task\TaskRepository;
+use App\Architecture\Task\Interface\TaskServiceInterface;
+use App\Architecture\Task\TaskService;
+use App\Domain\Task\Interface\TaskRepositoryInterface;
 use App\Infrastructure\Task\TaskEloquentRepository;
 use Illuminate\Support\ServiceProvider;
 
@@ -14,7 +16,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->bind(TaskRepository::class, TaskEloquentRepository::class);
+        $this->app->bind(TaskRepositoryInterface::class, TaskEloquentRepository::class);
+        $this->app->bind(TaskServiceInterface::class, TaskService::class);
     }
 
     /**
