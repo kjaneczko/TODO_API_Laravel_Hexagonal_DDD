@@ -3,26 +3,18 @@
 namespace App\Architecture\Task\Handler;
 
 use App\Architecture\Task\Command\RenameTaskCommand;
-use App\Architecture\Task\Exception\TaskNotFoundException;
-use App\Domain\Task\Interface\TaskRepositoryInterface;
+use App\Architecture\Task\TaskExecutor;
 
 readonly class RenameTaskHandler
 {
     public function __construct(
-        private TaskRepositoryInterface $repository,
+        private TaskExecutor $executor,
     ){}
 
     public function __invoke(RenameTaskCommand $command): void
     {
-        $task = $this->repository->findById($command->id);
-        if (!$task) {
-            throw TaskNotFoundException::withId($command->id);
-        }
-
+        $task = $this->executor->getOrFail($command->id);
         $task->rename($command->name);
-
-        if (!$this->repository->update($task)) {
-            throw TaskNotFoundException::withId($task->id());
-        }
+        $this->executor->updateOrFail($task);
     }
 }

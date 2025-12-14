@@ -3,27 +3,18 @@
 namespace App\Architecture\Task\Handler;
 
 use App\Architecture\Task\Command\CompleteTaskCommand;
-use App\Architecture\Task\Exception\TaskNotFoundException;
-use App\Domain\Task\Interface\TaskRepositoryInterface;
+use App\Architecture\Task\TaskExecutor;
 
 readonly class CompleteTaskHandler
 {
     public function __construct(
-        private TaskRepositoryInterface $repository,
+        private TaskExecutor $executor,
     ) {}
 
     public function __invoke(CompleteTaskCommand $command): void
     {
-        $task = $this->repository->findById($command->id);
-
-        if (!$task) {
-            throw TaskNotFoundException::withId($command->id);
-        }
-
+        $task = $this->executor->getOrFail($command->id);
         $task->complete();
-
-        if (!$this->repository->update($task)) {
-            throw TaskNotFoundException::withId($task->id());
-        }
+        $this->executor->updateOrFail($task);
     }
 }
