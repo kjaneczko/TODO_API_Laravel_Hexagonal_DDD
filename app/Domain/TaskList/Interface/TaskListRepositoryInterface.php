@@ -21,4 +21,6 @@ interface TaskListRepositoryInterface
     public function update(TaskList $taskList): bool;
 
     public function delete(TaskListId $id): bool;
+
+    public function exists(TaskListId $id): bool;
 }

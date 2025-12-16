@@ -18,3 +18,8 @@ it ('renames task list', function () {
         'name' => $model->name,
     ]);
 });
+
+it ('returns error message when task list does not exist', function () {
+    $response = getJson('/api/task-lists/0');
+    $response->assertNotFound();
+});

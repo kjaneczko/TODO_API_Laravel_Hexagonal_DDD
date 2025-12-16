@@ -1,6 +1,7 @@
 <?php
 
 use App\Architecture\Task\Exception\TaskNotFoundException;
+use App\Architecture\TaskList\Exception\TaskListNotFoundException;
 use App\Domain\Task\Exception\TaskValidationException;
 use App\Infrastructure\Exception\DatabaseException;
 use Illuminate\Foundation\Application;
@@ -29,6 +30,12 @@ return Application::configure(basePath: dirname(__DIR__))
                 ['error' => $e->getMessage()],
                 422
             );
+        });
+
+        $exceptions->render(function (TaskListNotFoundException $e) {
+            return response()->json([
+                'message' => $e->getMessage() ?: 'Task list not found',
+            ], 404);
         });
 
         $exceptions->render(function (DatabaseException $e) {

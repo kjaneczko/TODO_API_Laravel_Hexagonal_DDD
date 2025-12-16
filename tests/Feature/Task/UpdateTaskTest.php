@@ -16,3 +16,8 @@ it('update task', function () {
 
     $this->assertDatabaseHas('tasks', ['id' => $model->id, 'name' => $name, 'position' => 2, 'completed' => true]);
 });
+
+it ('returns error message when updating non existing task', function() {
+    $response = putJson('/api/tasks/0', ['name' => '1234']);
+    $response->assertNotFound();
+});

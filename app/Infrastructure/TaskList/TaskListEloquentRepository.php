@@ -87,4 +87,9 @@ class TaskListEloquentRepository implements TaskListRepositoryInterface
 
         return $result;
     }
+
+    public function exists(TaskListId $id): bool
+    {
+        return (bool)TaskListModel::find($id->toInt());
+    }
 }
