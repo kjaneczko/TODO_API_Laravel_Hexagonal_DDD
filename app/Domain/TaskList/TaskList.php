@@ -8,12 +8,12 @@ use App\Domain\TaskList\Exception\TaskListValidationException;
 class TaskList
 {
     private function __construct(
-        private readonly TaskListId $id,
+        private readonly ?TaskListId $id,
         private string $name,
     ) {}
 
     public static function create(
-        TaskListId $id,
+        ?TaskListId $id,
         string $name,
     ): self
     {

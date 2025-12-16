@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Architecture\Task\Interface;
 
+use App\Architecture\Task\Command\AssignToTaskListTaskCommand;
 use App\Architecture\Task\Command\CompleteTaskCommand;
 use App\Architecture\Task\Command\CreateTaskCommand;
 use App\Architecture\Task\Command\DeleteTaskCommand;
@@ -34,4 +35,6 @@ interface TaskServiceInterface
     public function rename(RenameTaskCommand $command): void;
 
     public function moveToPosition(MoveToPositionTaskCommand $command): void;
+
+    public function assignToTaskList(AssignToTaskListTaskCommand $command): void;
 }

@@ -10,6 +10,5 @@ readonly class UpdateTaskListCommand
     public function __construct(
         public TaskListId $id,
         public string $name,
-        public array $tasks,
     ) {}
 }

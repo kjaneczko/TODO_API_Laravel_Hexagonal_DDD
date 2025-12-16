@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Task\AssignToTaskListTaskController;
 use App\Http\Controllers\Task\CompleteTaskController;
 use App\Http\Controllers\Task\CreateTaskController;
 use App\Http\Controllers\Task\DeleteTaskController;
@@ -21,4 +22,5 @@ Route::group(['prefix' => 'tasks'], function () {
     Route::patch('/{id}/reopen', ReopenTaskController::class);
     Route::patch('/{id}/rename', RenameTaskController::class);
     Route::patch('/{id}/move_to_position', MoveToPositionTaskController::class);
+    Route::patch('/{id}/assign-to-task-list', AssignToTaskListTaskController::class);
 });

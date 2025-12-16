@@ -19,6 +19,6 @@ class CompleteTaskController extends Controller
     {
         $service->complete(new CompleteTaskCommand(new TaskId($id)));
 
-        return response()->json([], Response::HTTP_OK);
+        return response()->json();
     }
 }

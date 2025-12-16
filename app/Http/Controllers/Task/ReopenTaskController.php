@@ -19,6 +19,6 @@ class ReopenTaskController extends Controller
     {
         $service->reopen(new ReopenTaskCommand(new TaskId($id)));
 
-        return response()->json([], Response::HTTP_OK);
+        return response()->json();
     }
 }

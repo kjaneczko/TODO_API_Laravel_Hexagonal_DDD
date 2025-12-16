@@ -6,4 +6,5 @@ declare(strict_types=1);
 //})->middleware('auth:sanctum');
 
 require 'api/_tasks.php';
+require 'api/_task-lists.php';
 

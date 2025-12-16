@@ -34,6 +34,6 @@ class UpdateTaskController extends Controller
 
         $service->update($command);
 
-        return response()->json([], Response::HTTP_OK);
+        return response()->json();
     }
 }

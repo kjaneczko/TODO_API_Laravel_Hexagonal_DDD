@@ -26,7 +26,6 @@ class CreateTaskListController extends Controller
 
         $command = new CreateTaskListCommand(
             name: $request->get('name'),
-            tasks: $request->array('tasks'),
         );
 
         $taskList = $service->create($command);

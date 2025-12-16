@@ -30,6 +30,6 @@ class RenameTaskListController extends Controller
 
         $service->rename($command);
 
-        return response()->json([], Response::HTTP_OK);
+        return response()->json();
     }
 }

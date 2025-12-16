@@ -17,8 +17,8 @@ readonly class CreateTaskListHandler
     {
         return $this->repository->create(
             TaskList::create(
+                null,
                 $command->name,
-                $command->tasks,
             )
         );
     }

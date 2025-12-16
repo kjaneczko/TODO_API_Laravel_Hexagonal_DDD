@@ -30,6 +30,6 @@ class MoveToPositionTaskController extends Controller
 
         $service->moveToPosition($command);
 
-        return response()->json([], Response::HTTP_OK);
+        return response()->json();
     }
 }

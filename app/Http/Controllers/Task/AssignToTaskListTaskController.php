@@ -3,15 +3,17 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Task;
 
+use App\Architecture\Task\Command\AssignToTaskListTaskCommand;
 use App\Architecture\Task\Command\RenameTaskCommand;
 use App\Architecture\Task\Interface\TaskServiceInterface;
 use App\Domain\Task\TaskId;
+use App\Domain\TaskList\TaskListId;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class RenameTaskController extends Controller
+class AssignToTaskListTaskController extends Controller
 {
     public function __invoke(
         int $id,
@@ -20,15 +22,15 @@ class RenameTaskController extends Controller
     ): JsonResponse
     {
         $request->validate([
-            'name' => 'required|min:1|max:255',
+            'task_list_id' => 'required|min:1|max:255',
         ]);
 
-        $command = new RenameTaskCommand(
+        $command = new AssignToTaskListTaskCommand(
             new TaskId($id),
-            $request->get('name'),
+            new TaskListId($request->integer('task_list_id')),
         );
 
-        $service->rename($command);
+        $service->assignToTaskList($command);
 
         return response()->json();
     }

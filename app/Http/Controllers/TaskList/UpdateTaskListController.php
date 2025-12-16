@@ -4,7 +4,9 @@ declare(strict_types=1);
 namespace App\Http\Controllers\TaskList;
 
 use App\Architecture\TaskList\Command\CreateTaskListCommand;
+use App\Architecture\TaskList\Command\UpdateTaskListCommand;
 use App\Architecture\TaskList\Interface\TaskListServiceInterface;
+use App\Domain\TaskList\TaskListId;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\TaskListResource;
 use Illuminate\Http\JsonResponse;
@@ -14,6 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 class UpdateTaskListController extends Controller
 {
     public function __invoke(
+        int $id,
         Request $request,
         TaskListServiceInterface $service,
     ): JsonResponse
@@ -22,15 +25,13 @@ class UpdateTaskListController extends Controller
             'name' => 'required',
         ]);
 
-        $command = new CreateTaskListCommand(
+        $command = new UpdateTaskListCommand(
+            id: new TaskListId($id),
             name: $request->get('name'),
-            tasks: $request->array('tasks'),
         );
 
-        $taskList = $service->create($command);
+        $service->update($command);
 
-        return (new TaskListResource($taskList))
-            ->response()
-            ->setStatusCode(Response::HTTP_CREATED);
+        return response()->json();
     }
 }

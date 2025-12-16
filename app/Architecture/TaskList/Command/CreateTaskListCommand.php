@@ -7,6 +7,5 @@ readonly class CreateTaskListCommand
 {
     public function __construct(
         public string $name,
-        public array $tasks,
     ) {}
 }

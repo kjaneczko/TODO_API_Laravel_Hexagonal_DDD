@@ -5,14 +5,26 @@ namespace App\Architecture\Task;
 
 use App\Architecture\Task\Interface\TaskServiceInterface;
 use App\Domain\Task\Task;
-use App\Architecture\Task\Command\{
-    CreateTaskCommand, ShowTaskCommand, ListTaskCommand, UpdateTaskCommand, DeleteTaskCommand,
-    CompleteTaskCommand, ReopenTaskCommand, RenameTaskCommand, MoveToPositionTaskCommand
-};
-use App\Architecture\Task\Handler\{
-    CreateTaskHandler, ShowTaskHandler, ListTaskHandler, UpdateTaskHandler, DeleteTaskHandler,
-    CompleteTaskHandler, ReopenTaskHandler, RenameTaskHandler, MoveToPositionTaskHandler
-};
+use App\Architecture\Task\Command\{AssignToTaskListTaskCommand,
+    CreateTaskCommand,
+    ShowTaskCommand,
+    ListTaskCommand,
+    UpdateTaskCommand,
+    DeleteTaskCommand,
+    CompleteTaskCommand,
+    ReopenTaskCommand,
+    RenameTaskCommand,
+    MoveToPositionTaskCommand};
+use App\Architecture\Task\Handler\{AssignToTaskListTaskHandler,
+    CreateTaskHandler,
+    ShowTaskHandler,
+    ListTaskHandler,
+    UpdateTaskHandler,
+    DeleteTaskHandler,
+    CompleteTaskHandler,
+    ReopenTaskHandler,
+    RenameTaskHandler,
+    MoveToPositionTaskHandler};
 
 final readonly class TaskService implements TaskServiceInterface
 {
@@ -26,6 +38,7 @@ final readonly class TaskService implements TaskServiceInterface
         private ReopenTaskHandler $reopen,
         private RenameTaskHandler $rename,
         private MoveToPositionTaskHandler $moveToPosition,
+        private AssignToTaskListTaskHandler $assignToTaskList,
     ) {}
 
     public function create(CreateTaskCommand $command): Task
@@ -71,5 +84,10 @@ final readonly class TaskService implements TaskServiceInterface
     public function moveToPosition(MoveToPositionTaskCommand $command): void
     {
         ($this->moveToPosition)($command);
+    }
+
+    public function assignToTaskList(AssignToTaskListTaskCommand $command): void
+    {
+        ($this->assignToTaskList)($command);
     }
 }

@@ -8,9 +8,11 @@ use function Pest\Laravel\patchJson;
 
 uses(RefreshDatabase::class);
 
-it ('list task lists', function () {
-    $model = TaskModel::factory()->create();
+it ('lists task lists', function () {
+    TaskModel::factory()->count(5)->create();
 
     $response = getJson('/api/task-lists/');
     $response->assertOk();
+
+    $response->assertJsonCount(5, 'data');
 });

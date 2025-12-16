@@ -19,6 +19,6 @@ class DeleteTaskListController extends Controller
     {
         $service->delete(new DeleteTaskListCommand(new TaskListId($id)));
 
-        return response()->json([], Response::HTTP_OK);
+        return response()->json();
     }
 }
