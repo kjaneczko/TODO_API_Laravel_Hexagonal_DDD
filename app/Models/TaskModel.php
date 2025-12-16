@@ -3,8 +3,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Domain\Task\Task;
-use App\Domain\Task\TaskId;
+use Database\Factories\TaskModelFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -25,7 +24,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class TaskModel extends Model
 {
-    /** @use HasFactory<\Database\Factories\TaskModelFactory> */
+    /** @use HasFactory<TaskModelFactory> */
     use HasFactory;
 
     protected $table = 'tasks';

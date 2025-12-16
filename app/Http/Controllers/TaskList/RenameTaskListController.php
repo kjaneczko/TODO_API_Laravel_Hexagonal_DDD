@@ -9,7 +9,6 @@ use App\Domain\TaskList\TaskListId;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 class RenameTaskListController extends Controller
 {

@@ -8,7 +8,6 @@ use App\Architecture\TaskList\Interface\TaskListServiceInterface;
 use App\Domain\TaskList\TaskListId;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
 
 class DeleteTaskListController extends Controller
 {

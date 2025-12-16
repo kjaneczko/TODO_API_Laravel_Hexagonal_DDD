@@ -20,8 +20,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->bind(TaskRepositoryInterface::class, TaskEloquentRepository::class);
         $this->app->bind(TaskServiceInterface::class, TaskService::class);
+        $this->app->bind(TaskRepositoryInterface::class, TaskEloquentRepository::class);
+
         $this->app->bind(TaskListServiceInterface::class, TaskListService::class);
         $this->app->bind(TaskListRepositoryInterface::class, TaskListEloquentRepository::class);
     }

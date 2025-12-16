@@ -10,5 +10,5 @@ readonly class RenameTaskListCommand
     public function __construct(
         public TaskListId $id,
         public string $name,
-    ){}
+    ) {}
 }

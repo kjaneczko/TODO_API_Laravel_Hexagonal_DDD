@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Database\Factories\TaskListModelFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -22,7 +23,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  */
 class TaskListModel extends Model
 {
-    /** @use HasFactory<\Database\Factories\TaskListModelFactory> */
+    /** @use HasFactory<TaskListModelFactory> */
     use HasFactory;
 
     protected $table = 'task_lists';
