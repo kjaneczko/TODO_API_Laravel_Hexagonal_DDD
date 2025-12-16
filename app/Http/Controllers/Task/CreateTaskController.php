@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 class CreateTaskController extends Controller
 {
     public function __invoke(
-        Request           $request,
+        Request $request,
         TaskServiceInterface $service,
     ): JsonResponse
     {

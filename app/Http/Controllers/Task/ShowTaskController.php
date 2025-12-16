@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 class ShowTaskController extends Controller
 {
     public function __invoke(
-        int                  $id,
+        int $id,
         TaskServiceInterface $service,
     ): JsonResponse
     {

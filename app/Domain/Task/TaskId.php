@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Task;
 
-class TaskId
+readonly class TaskId
 {
     public function __construct(
         private int $id,

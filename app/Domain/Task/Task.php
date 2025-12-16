@@ -8,10 +8,10 @@ use App\Domain\Task\Exception\TaskValidationException;
 final class Task
 {
     private function __construct(
-        private ?TaskId $id,
-        private string $name,
-        private int $position = 0,
-        private bool $completed = false,
+        private readonly ?TaskId $id,
+        private string           $name,
+        private int              $position = 0,
+        private bool             $completed = false,
     ) {}
 
     public static function create(
