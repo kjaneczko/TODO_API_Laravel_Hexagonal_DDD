@@ -20,10 +20,11 @@ class TaskResource extends JsonResource
         $task = $this->resource;
 
         return [
-            'id'        => $task->id()?->toInt(),
-            'name'      => $task->name(),
-            'position'  => $task->position(),
+            'id' => $task->id()?->toInt(),
+            'name' => $task->name(),
+            'position' => $task->position(),
             'completed' => $task->completed(),
+            'task_list_id' => $task->taskListId()?->toInt(),
         ];
     }
 }

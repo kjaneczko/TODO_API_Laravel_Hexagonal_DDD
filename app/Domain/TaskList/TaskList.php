@@ -4,45 +4,38 @@ declare(strict_types=1);
 namespace App\Domain\TaskList;
 
 use App\Domain\TaskList\Exception\TaskListValidationException;
-use App\Domain\Task\Task;
 
 class TaskList
 {
-    /**
-     * @param Task[] $tasks
-     */
     private function __construct(
-        private readonly ?TaskListId $id,
+        private readonly TaskListId $id,
         private string $name,
-        private readonly array $tasks,
     ) {}
 
     public static function create(
+        TaskListId $id,
         string $name,
-        array $tasks,
     ): self
     {
         self::assertValidName($name);
 
         return new self(
-            id: null,
+            id: $id,
             name: $name,
-            tasks: $tasks,
         );
     }
 
     public static function reconstitute(
         TaskListId $id,
         string $name,
-        array $tasks,
     ): self
     {
         self::assertValidName($name);
 
-        return new self($id, $name, $tasks);
+        return new self($id, $name);
     }
 
-    public function id(): ?TaskListId
+    public function id(): TaskListId
     {
         return $this->id;
     }
@@ -50,11 +43,6 @@ class TaskList
     public function name(): string
     {
         return $this->name;
-    }
-
-    public function tasks(): array
-    {
-        return $this->tasks;
     }
 
     public function rename(string $name): void

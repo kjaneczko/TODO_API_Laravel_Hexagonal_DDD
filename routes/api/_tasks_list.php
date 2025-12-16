@@ -8,7 +8,7 @@ use App\Http\Controllers\TaskList\ShowTaskListController;
 use App\Http\Controllers\TaskList\UpdateTaskListController;
 use Illuminate\Support\Facades\Route;
 
-Route::group(['prefix' => 'task_list'], function () {
+Route::group(['prefix' => 'task-lists'], function () {
     Route::get('/', ListTaskListController::class);
     Route::post('/', CreateTaskListController::class);
     Route::put('/{id}', UpdateTaskListController::class);

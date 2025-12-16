@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Task;
 
 use App\Architecture\Task\Command\CreateTaskCommand;
 use App\Architecture\Task\Interface\TaskServiceInterface;
+use App\Domain\TaskList\TaskListId;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\TaskResource;
 use Illuminate\Http\JsonResponse;
@@ -20,14 +21,16 @@ class CreateTaskController extends Controller
     {
         $request->validate([
             'name' => 'required',
+            'task_list_id' => 'integer|required',
             'position' => 'integer|max:255',
             'completed' => 'boolean',
         ]);
 
         $command = new CreateTaskCommand(
             name: $request->get('name'),
-            position: $request->integer('position', 0),
-            completed: $request->boolean('completed', false),
+            taskListId: new TaskListId($request->integer('task_list_id')),
+            position: $request->integer('position'),
+            completed: $request->boolean('completed'),
         );
 
         $task = $service->create($command);

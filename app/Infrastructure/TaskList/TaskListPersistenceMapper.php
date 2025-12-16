@@ -14,15 +14,13 @@ final class TaskListPersistenceMapper
         return TaskList::reconstitute(
             new TaskListId($model->id),
             $model->name,
-            $model->tasks,
         );
     }
 
     public static function toPersistence(TaskList $taskList): array
     {
         return [
-            'name'      => $taskList->name(),
-            'tasks'  => $taskList->tasks(),
+            'name' => $taskList->name(),
         ];
     }
 }

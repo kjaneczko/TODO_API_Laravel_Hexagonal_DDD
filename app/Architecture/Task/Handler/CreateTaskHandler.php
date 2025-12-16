@@ -18,6 +18,7 @@ readonly class CreateTaskHandler
         return $this->repository->create(
             Task::create(
                 $command->name,
+                $command->taskListId,
                 $command->position,
                 $command->completed,
             )

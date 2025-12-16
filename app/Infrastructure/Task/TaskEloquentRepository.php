@@ -7,6 +7,7 @@ use App\Architecture\Shared\Query\PageRequest;
 use App\Domain\Task\Interface\TaskRepositoryInterface;
 use App\Domain\Task\Task;
 use App\Domain\Task\TaskId;
+use App\Domain\TaskList\TaskListId;
 use App\Infrastructure\Exception\DatabaseException;
 use App\Models\TaskModel;
 use Illuminate\Database\QueryException;
@@ -51,6 +52,18 @@ class TaskEloquentRepository implements TaskRepositoryInterface
         return TaskModel::skip($offset)
             ->take($pageRequest->limit)
             ->orderBy('id')
+            ->get()
+            ->map(fn ($model) => TaskPersistenceMapper::toDomain($model))
+            ->all();
+    }
+
+    /**
+     * @return Task[]
+     */
+    public function findByTaskListId(TaskListId $taskListId): array
+    {
+        return TaskModel::where('task_list_id', $taskListId->toInt())
+            ->orderBy('position')
             ->get()
             ->map(fn ($model) => TaskPersistenceMapper::toDomain($model))
             ->all();

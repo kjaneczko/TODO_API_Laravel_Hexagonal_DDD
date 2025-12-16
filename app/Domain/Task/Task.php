@@ -4,18 +4,21 @@ declare(strict_types=1);
 namespace App\Domain\Task;
 
 use App\Domain\Task\Exception\TaskValidationException;
+use App\Domain\TaskList\TaskListId;
 
 final class Task
 {
     private function __construct(
         private readonly ?TaskId $id,
-        private string           $name,
-        private int              $position = 0,
-        private bool             $completed = false,
+        private string $name,
+        private TaskListId $taskListId,
+        private int $position = 0,
+        private bool $completed = false,
     ) {}
 
     public static function create(
         string $name,
+        TaskListId $taskListId,
         int $position = 0,
         bool $completed = false,
     ): self
@@ -27,14 +30,16 @@ final class Task
         return new self(
             id: null,
             name: $name,
+            taskListId: $taskListId,
             position: $position,
-            completed: $completed
+            completed: $completed,
         );
     }
 
     public static function reconstitute(
         TaskId $id,
         string $name,
+        TaskListId $taskListId,
         int $position,
         bool $completed,
     ): self
@@ -42,7 +47,7 @@ final class Task
         self::assertValidName($name);
         self::assertValidPosition($position);
 
-        return new self($id, $name, $position, $completed);
+        return new self($id, $name, $taskListId, $position, $completed);
     }
 
     public function id(): ?TaskId
@@ -82,10 +87,20 @@ final class Task
         return $this->position;
     }
 
+    public function taskListId(): TaskListId
+    {
+        return $this->taskListId;
+    }
+
     public function moveToPosition(int $position): void
     {
         self::assertValidPosition($position);
         $this->position = $position;
+    }
+
+    public function assignToTaskList(TaskListId $taskListId): void
+    {
+        $this->taskListId = $taskListId;
     }
 
     private static function assertValidName(?string $name): void

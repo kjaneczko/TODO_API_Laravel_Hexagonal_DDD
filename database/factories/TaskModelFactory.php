@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Database\Factories;
 
+use App\Models\TaskListModel;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -21,6 +22,7 @@ class TaskModelFactory extends Factory
             'name' => $this->faker->sentence(),
             'position' => 0,
             'completed' => false,
+            'task_list_id' => TaskListModel::factory(),
         ];
     }
 }

@@ -7,6 +7,7 @@ use App\Domain\Task\Task;
 use App\Domain\Task\TaskId;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * @method static find(int $id)
@@ -20,6 +21,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $name
  * @property int $position
  * @property bool $completed
+ * @property int|null $task_list_id
  */
 class TaskModel extends Model
 {
@@ -27,5 +29,10 @@ class TaskModel extends Model
     use HasFactory;
 
     protected $table = 'tasks';
-    protected $fillable = ['name', 'position', 'completed'];
+    protected $fillable = ['name', 'position', 'completed', 'task_list_id'];
+
+    public function taskList(): BelongsTo
+    {
+        return $this->belongsTo(TaskListModel::class);
+    }
 }

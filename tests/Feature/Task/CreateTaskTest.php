@@ -1,15 +1,19 @@
 <?php
 declare(strict_types=1);
 
+use App\Models\TaskListModel;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use function Pest\Laravel\postJson;
 
 uses(RefreshDatabase::class);
 
 it('create task', function () {
+    $model = TaskListModel::factory()->create();
+
     $name = 'test task';
     $response = postJson('/api/tasks', [
         'name' => $name,
+        'task_list_id' => $model->id,
         'position' => 1,
         'completed' => false,
     ]);
@@ -19,6 +23,7 @@ it('create task', function () {
     $this->assertDatabaseHas('tasks', [
         'id' => $id,
         'name' => $name,
+        'task_list_id' => $model->id,
         'position' => 1,
         'completed' => false,
     ]);
