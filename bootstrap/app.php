@@ -27,7 +27,10 @@ return Application::configure(basePath: dirname(__DIR__))
         });
 
         $exceptions->render(function (TaskValidationException $e) {
-            return response()->json(json_decode($e->getMessage()), 422);
+            return response()->json([
+                'message' => $e->getMessage(),
+                'errors' => $e->getErrors(),
+            ], 422);
         });
 
         $exceptions->render(function (TaskListNotFoundException $e) {
@@ -37,7 +40,10 @@ return Application::configure(basePath: dirname(__DIR__))
         });
 
         $exceptions->render(function (TaskListValidationException $e) {
-            return response()->json(json_decode($e->getMessage()), 422);
+            return response()->json([
+                'message' => $e->getMessage(),
+                'errors' => $e->getErrors(),
+            ], 422);
         });
 
         $exceptions->render(function (DatabaseException $e) {

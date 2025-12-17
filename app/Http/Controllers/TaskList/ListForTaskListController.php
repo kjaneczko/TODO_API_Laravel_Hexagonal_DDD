@@ -20,7 +20,6 @@ class ListForTaskListController extends Controller
         int $id,
         Request $request,
         TaskServiceInterface $service,
-        TaskListServiceInterface $taskListService
     ): JsonResponse
     {
         $request->validate([

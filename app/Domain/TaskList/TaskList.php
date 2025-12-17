@@ -53,12 +53,23 @@ class TaskList
 
     private static function assertValidName(?string $name): void
     {
+
         if (!$name || trim($name) === '') {
-            throw new TaskListValidationException('Task list name cannot be empty');
+            $errors = [
+                'name' => [
+                    'Task list name cannot be empty',
+                ],
+            ];
+            throw new TaskListValidationException($errors);
         }
 
         if (mb_strlen($name) > 255) {
-            throw new TaskListValidationException('Task list name cannot be longer than 255 characters');
+            $errors = [
+                'name' => [
+                    'Task list name cannot be longer than 255 characters',
+                ],
+            ];
+            throw new TaskListValidationException($errors);
         }
     }
 }

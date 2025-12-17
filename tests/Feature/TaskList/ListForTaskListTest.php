@@ -11,7 +11,7 @@ it ('shows list of tasks for task list', function () {
     $task = TaskModel::factory()->create();
     TaskModel::factory()->count(4)->create(['task_list_id' => $task->task_list_id]);
 
-    $response = getJson('/api/task-lists/' . $task->id . '/tasks');
+    $response = getJson('/api/task-lists/' . $task->task_list_id . '/tasks');
     $response->assertOk();
     $response->assertJsonCount(5, 'data');
 });

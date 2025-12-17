@@ -20,8 +20,6 @@ class CreateTaskListController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'position' => 'integer|max:255',
-            'completed' => 'boolean',
         ]);
 
         $command = new CreateTaskListCommand(
