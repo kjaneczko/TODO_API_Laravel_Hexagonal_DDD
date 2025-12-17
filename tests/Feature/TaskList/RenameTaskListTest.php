@@ -8,18 +8,19 @@ use function Pest\Laravel\patchJson;
 uses(RefreshDatabase::class);
 
 it ('renames task list', function () {
-    $model = TaskListModel::factory()->create();
+    $taskList = TaskListModel::factory()->create();
     $name = 'My Task List';
 
-    $response = patchJson('/api/task-lists/' . $model->id . '/rename', ['name' => $name]);
+    $response = patchJson('/api/task-lists/' . $taskList->id . '/rename', ['name' => $name]);
     $response->assertOk();
 
-    $this->assertDatabaseHas('task_lists', ['id' => $model->id, 'name' => $name]);
+    $this->assertDatabaseHas('task_lists', ['id' => $taskList->id, 'name' => $name]);
 });
 
 it ('returns error message when rename task list with empty name', function() {
-    $model = TaskListModel::factory()->create();
+    $taskList = TaskListModel::factory()->create();
 
-    $response = patchJson('/api/task-lists/' . $model->id . '/rename', ['name' => '']);
+    $response = patchJson('/api/task-lists/' . $taskList->id . '/rename', ['name' => '']);
     $response->assertUnprocessable();
+    $response->assertJsonValidationErrors('name');
 });

@@ -8,13 +8,13 @@ use function Pest\Laravel\getJson;
 uses(RefreshDatabase::class);
 
 it('shows task', function () {
-    $model = TaskModel::factory()->create();
+    $task = TaskModel::factory()->create();
 
-    $response = getJson('/api/tasks/'.$model['id']);
+    $response = getJson('/api/tasks/' . $task['id']);
     $response->assertOk();
     $response->assertJsonFragment([
-        'id' => $model['id'],
-        'name' => $model['name'],
+        'id' => $task['id'],
+        'name' => $task['name'],
     ]);
 });
 

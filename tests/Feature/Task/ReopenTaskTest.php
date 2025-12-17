@@ -8,10 +8,10 @@ use function Pest\Laravel\patchJson;
 uses(RefreshDatabase::class);
 
 it ('reopen task', function () {
-    $model = TaskModel::factory()->create(['completed' => false]);
+    $task = TaskModel::factory()->create(['completed' => false]);
 
-    $response = patchJson('/api/tasks/' . $model->id . '/reopen');
+    $response = patchJson('/api/tasks/' . $task->id . '/reopen');
     $response->assertOk();
 
-    $this->assertDatabaseHas('tasks', ['id' => $model->id, 'completed' => false]);
+    $this->assertDatabaseHas('tasks', ['id' => $task->id, 'completed' => false]);
 });

@@ -1,22 +1,26 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Http\Controllers\Task;
+namespace App\Http\Controllers\TaskList;
 
 use App\Architecture\Shared\Query\PageRequest;
 use App\Architecture\Task\Command\ListTaskCommand;
 use App\Architecture\Task\Interface\TaskServiceInterface;
+use App\Architecture\TaskList\Interface\TaskListServiceInterface;
+use App\Domain\TaskList\TaskListId;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\TaskResource;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class ListTaskController extends Controller
+class ListForTaskListController extends Controller
 {
     public function __invoke(
+        int $id,
         Request $request,
         TaskServiceInterface $service,
+        TaskListServiceInterface $taskListService
     ): JsonResponse
     {
         $request->validate([
@@ -25,10 +29,11 @@ class ListTaskController extends Controller
         ]);
 
         $page = $request->integer('page') ?: 1;
-        $limit = $request->integer('limit') ?: 100;
+        $limit = $request->integer('limit') ?: 1000;
 
         $command = new ListTaskCommand(
-            pageRequest: new PageRequest($page, $limit)
+            pageRequest: new PageRequest($page, $limit),
+            taskListId: new TaskListId($id),
         );
 
         $tasks = $service->list($command);

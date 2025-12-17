@@ -4,18 +4,17 @@ declare(strict_types=1);
 use App\Models\TaskListModel;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use function Pest\Laravel\getJson;
-use function Pest\Laravel\patchJson;
 
 uses(RefreshDatabase::class);
 
-it ('renames task list', function () {
-    $model = TaskListModel::factory()->create();
+it ('shows task list', function () {
+    $taskList = TaskListModel::factory()->create();
 
-    $response = getJson('/api/task-lists/' . $model->id);
+    $response = getJson('/api/task-lists/' . $taskList->id);
     $response->assertOk();
     $response->assertJsonFragment([
-        'id' => $model->id,
-        'name' => $model->name,
+        'id' => $taskList->id,
+        'name' => $taskList->name,
     ]);
 });
 

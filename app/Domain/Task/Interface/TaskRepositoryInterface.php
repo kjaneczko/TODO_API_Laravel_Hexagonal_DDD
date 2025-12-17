@@ -6,6 +6,7 @@ namespace App\Domain\Task\Interface;
 use App\Architecture\Shared\Query\PageRequest;
 use App\Domain\Task\Task;
 use App\Domain\Task\TaskId;
+use App\Domain\TaskList\TaskListId;
 
 interface TaskRepositoryInterface
 {
@@ -16,7 +17,7 @@ interface TaskRepositoryInterface
     /**
      * @return Task[]
      */
-    public function findAll(PageRequest $pageRequest): array;
+    public function findAll(PageRequest $pageRequest, ?TaskListId $taskListId): array;
 
     public function update(Task $task): bool;
 

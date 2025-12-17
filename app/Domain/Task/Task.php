@@ -106,25 +106,57 @@ final class Task
     private static function assertValidName(?string $name): void
     {
         if (!$name || trim($name) === '') {
-            throw new TaskValidationException('Task name cannot be empty');
+            $message = [
+                'message' => 'Validation failed',
+                'errors' => [
+                    'name' => [
+                        'Task name cannot be empty',
+                    ],
+                ],
+            ];
+            throw new TaskValidationException(json_encode($message, ));
         }
 
         if (mb_strlen($name) > 255) {
-            throw new TaskValidationException('Task name cannot be longer than 255 characters');
+            $message = [
+                'message' => 'Validation failed',
+                'errors' => [
+                    'name' => [
+                        'Task name cannot be longer than 255 characters',
+                    ],
+                ],
+            ];
+            throw new TaskValidationException(json_encode($message));
         }
     }
 
     private static function assertValidPosition(int $position): void
     {
         if ($position < 0) {
-            throw new TaskValidationException('Task position must be greater or equal 0');
+            $message = [
+                'message' => 'Validation failed',
+                'errors' => [
+                    'position' => [
+                        'Task position must be greater or equal 0',
+                    ],
+                ],
+            ];
+            throw new TaskValidationException(json_encode($message));
         }
     }
 
     private static function assertNewTaskCompletion(bool $completed): void
     {
         if ($completed) {
-            throw new TaskValidationException('New task cannot be completed initially.');
+            $message = [
+                'message' => 'Validation failed',
+                'errors' => [
+                    'completed' => [
+                        'New task cannot be completed initially',
+                    ],
+                ],
+            ];
+            throw new TaskValidationException(json_encode($message));
         }
     }
 }

@@ -45,26 +45,19 @@ class TaskEloquentRepository implements TaskRepositoryInterface
         return TaskPersistenceMapper::toDomain($model);
     }
 
-    public function findAll(PageRequest $pageRequest): array
+    public function findAll(PageRequest $pageRequest, ?TaskListId $taskListId): array
     {
         $offset = ($pageRequest->page - 1) * $pageRequest->limit;
 
-        return TaskModel::skip($offset)
+        $query = TaskModel::skip($offset)
             ->take($pageRequest->limit)
-            ->orderBy('id')
-            ->get()
-            ->map(fn ($model) => TaskPersistenceMapper::toDomain($model))
-            ->all();
-    }
+            ->orderBy('id');
 
-    /**
-     * @return Task[]
-     */
-    public function findByTaskListId(TaskListId $taskListId): array
-    {
-        return TaskModel::where('task_list_id', $taskListId->toInt())
-            ->orderBy('position')
-            ->get()
+        if ($taskListId) {
+            $query = $query->where('task_list_id', $taskListId->toInt());
+        }
+
+        return $query->get()
             ->map(fn ($model) => TaskPersistenceMapper::toDomain($model))
             ->all();
     }

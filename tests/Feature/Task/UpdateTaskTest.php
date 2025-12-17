@@ -8,13 +8,13 @@ use function Pest\Laravel\putJson;
 uses(RefreshDatabase::class);
 
 it('update task', function () {
-    $model = TaskModel::factory()->create();
+    $task = TaskModel::factory()->create();
 
     $name = 'updated name';
-    $response = putJson('/api/tasks/'.$model->id, ['name' => $name, 'position' => 2, 'completed' => true]);
+    $response = putJson('/api/tasks/' . $task->id, ['name' => $name, 'position' => 2, 'completed' => true]);
     $response->assertOk();
 
-    $this->assertDatabaseHas('tasks', ['id' => $model->id, 'name' => $name, 'position' => 2, 'completed' => true]);
+    $this->assertDatabaseHas('tasks', ['id' => $task->id, 'name' => $name, 'position' => 2, 'completed' => true]);
 });
 
 it ('returns error message when updating non existing task', function() {

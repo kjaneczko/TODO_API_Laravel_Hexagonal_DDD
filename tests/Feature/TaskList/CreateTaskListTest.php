@@ -1,10 +1,7 @@
 <?php
 declare(strict_types=1);
 
-use App\Models\TaskModel;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use function Pest\Laravel\getJson;
-use function Pest\Laravel\patchJson;
 use function Pest\Laravel\postJson;
 
 uses(RefreshDatabase::class);
@@ -21,4 +18,5 @@ it ('creates task list', function () {
 it ('returns error message when creating task list with empty name', function() {
     $response = postJson('/api/task-lists', ['name' => '']);
     $response->assertUnprocessable();
+    $response->assertJsonValidationErrors('name');
 });

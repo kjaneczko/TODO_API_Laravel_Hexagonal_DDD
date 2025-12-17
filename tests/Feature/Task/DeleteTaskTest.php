@@ -9,9 +9,14 @@ uses(RefreshDatabase::class);
 
 it('delete task', function () {
     $model = TaskModel::factory()->create();
-    $this->assertDatabaseHas('tasks', ['id' => $model->id, 'name' => $model->name, 'position' => $model->position, 'completed' => $model->completed]);
+    $this->assertDatabaseHas('tasks', [
+        'id' => $model->id,
+        'name' => $model->name,
+        'position' => $model->position,
+        'completed' => $model->completed
+    ]);
 
-    $response = deleteJson('/api/tasks/'.$model->id);
+    $response = deleteJson('/api/tasks/' . $model->id);
     $response->assertOk();
 
     $this->assertDatabaseMissing('tasks', ['id' => $model->id]);

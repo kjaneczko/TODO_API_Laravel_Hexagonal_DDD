@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\TaskList\CreateTaskListController;
 use App\Http\Controllers\TaskList\DeleteTaskListController;
+use App\Http\Controllers\TaskList\ListForTaskListController;
 use App\Http\Controllers\TaskList\ListTaskListController;
 use App\Http\Controllers\TaskList\RenameTaskListController;
 use App\Http\Controllers\TaskList\ShowTaskListController;
@@ -14,5 +15,6 @@ Route::group(['prefix' => 'task-lists'], function () {
     Route::put('/{id}', UpdateTaskListController::class);
     Route::get('/{id}', ShowTaskListController::class);
     Route::delete('/{id}', DeleteTaskListController::class);
+    Route::get('/{id}/tasks', ListForTaskListController::class);
     Route::patch('/{id}/rename', RenameTaskListController::class);
 });

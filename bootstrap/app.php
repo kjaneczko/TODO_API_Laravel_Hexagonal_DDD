@@ -3,6 +3,7 @@
 use App\Architecture\Task\Exception\TaskNotFoundException;
 use App\Architecture\TaskList\Exception\TaskListNotFoundException;
 use App\Domain\Task\Exception\TaskValidationException;
+use App\Domain\TaskList\Exception\TaskListValidationException;
 use App\Infrastructure\Exception\DatabaseException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -26,16 +27,17 @@ return Application::configure(basePath: dirname(__DIR__))
         });
 
         $exceptions->render(function (TaskValidationException $e) {
-            return response()->json(
-                ['error' => $e->getMessage()],
-                422
-            );
+            return response()->json(json_decode($e->getMessage()), 422);
         });
 
         $exceptions->render(function (TaskListNotFoundException $e) {
             return response()->json([
                 'message' => $e->getMessage() ?: 'Task list not found',
             ], 404);
+        });
+
+        $exceptions->render(function (TaskListValidationException $e) {
+            return response()->json(json_decode($e->getMessage()), 422);
         });
 
         $exceptions->render(function (DatabaseException $e) {
