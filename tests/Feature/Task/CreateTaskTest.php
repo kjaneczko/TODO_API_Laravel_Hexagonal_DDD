@@ -7,7 +7,7 @@ use function Pest\Laravel\postJson;
 
 uses(RefreshDatabase::class);
 
-it('create task', function () {
+it('creates task', function () {
     $taskList = TaskListModel::factory()->create();
 
     $name = 'test task';
@@ -29,7 +29,7 @@ it('create task', function () {
     ]);
 });
 
-it('create task - shows creation error for non-existing task list', function () {
+it('returns 404 when creating a task for a non-existing task list', function () {
     $name = 'test task';
     $response = postJson('/api/tasks', [
         'name' => $name,
@@ -40,7 +40,7 @@ it('create task - shows creation error for non-existing task list', function () 
     $response->assertNotFound();
 });
 
-it ('shows errors for empty name', function () {
+it ('returns validation errors when name is empty', function () {
     $taskList = TaskListModel::factory()->create();
 
     $response = postJson('/api/tasks', [
@@ -51,7 +51,7 @@ it ('shows errors for empty name', function () {
     $response->assertJsonValidationErrors('name');
 });
 
-it ('shows errors for name of length over 255', function () {
+it ('returns validation errors when name is longer than 255 characters', function () {
     $taskList = TaskListModel::factory()->create();
 
     $response = postJson('/api/tasks', [
@@ -67,7 +67,7 @@ it ('shows errors for name of length over 255', function () {
     $response->assertJsonValidationErrors('name');
 });
 
-it ('shows errors for not integer position', function () {
+it ('returns validation errors when position is not an integer', function () {
     $taskList = TaskListModel::factory()->create();
 
     $response = postJson('/api/tasks', [
@@ -79,7 +79,7 @@ it ('shows errors for not integer position', function () {
     $response->assertJsonValidationErrors('position');
 });
 
-it ('shows errors for position number below 0', function () {
+it ('returns validation errors when position is below 0', function () {
     $taskList = TaskListModel::factory()->create();
 
     $response = postJson('/api/tasks', [
@@ -91,7 +91,7 @@ it ('shows errors for position number below 0', function () {
     $response->assertJsonValidationErrors('position');
 });
 
-it ('shows errors for position number over 255', function () {
+it ('returns validation errors when position is greater than 255', function () {
     $taskList = TaskListModel::factory()->create();
 
     $response = postJson('/api/tasks', [
@@ -103,7 +103,7 @@ it ('shows errors for position number over 255', function () {
     $response->assertJsonValidationErrors('position');
 });
 
-it ('shows errors for flag completed different than boolean', function () {
+it ('returns validation errors when completed is not a boolean', function () {
     $taskList = TaskListModel::factory()->create();
 
     $response = postJson('/api/tasks', [

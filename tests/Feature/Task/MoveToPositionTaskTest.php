@@ -7,7 +7,7 @@ use function Pest\Laravel\patchJson;
 
 uses(RefreshDatabase::class);
 
-it ('move to position task', function () {
+it ('moves a task to a new position', function () {
     $task = TaskModel::factory()->create();
 
     $response = patchJson('/api/tasks/' . $task->id . '/move_to_position', ['position' => 6]);

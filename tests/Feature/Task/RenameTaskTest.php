@@ -7,7 +7,7 @@ use function Pest\Laravel\patchJson;
 
 uses(RefreshDatabase::class);
 
-it ('rename task', function () {
+it ('renames task', function () {
     $task = TaskModel::factory()->create();
 
     $name = 'new name';

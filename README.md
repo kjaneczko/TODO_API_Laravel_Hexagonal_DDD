@@ -1,59 +1,146 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Todo App — Hexagonal Architecture & DDD (PHP / Laravel)
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+This project is a simple **Todo application** built as a **learning and portfolio project**, with a strong focus on **clean architecture, Domain-Driven Design (DDD)** and **SOLID principles**.
 
-## About Laravel
+The goal of this project is not feature richness, but **clean separation of concerns**, clear domain boundaries, and testable business logic.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Key architectural decisions
+### Hexagonal Architecture (Ports & Adapters)
+The application is structured around the hexagonal architecture pattern:
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- **Domain**
+  - Pure domain logic (entities, value objects, domain validation)
+  - No dependencies on framework, HTTP, ORM or infrastructure
+- **Application**
+  - Use cases and application services 
+  - Cross-aggregate rules (e.g. validating references between Task and TaskList)
+  - Orchestration logic
+- **Infrastructure**
+  - Eloquent repositories (database adapters)
+  - Persistence mappers
+- **HTTP layer**
+  - Thin controllers 
+  - Request validation 
+  - JSON resources and exception mapping
 
-## Learning Laravel
+Dependencies always point **inward**, towards the domain.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+---
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Domain-Driven Design
+The core domain concepts are:
 
-## Laravel Sponsors
+- **Task**
+  - Represents a single todo item 
+  - Uses a value object (`TaskId`)
+  - Domain-level validation (name, position, state)
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+- **TaskList**
+  - Represents a logical grouping of tasks 
+  - Uses a value object (`TaskListId`)
+  - Acts as a separate aggregate root
 
-### Premium Partners
+`Task` and `TaskList` are modeled as **separate aggregates**.
+Cross-aggregate rules (e.g. assigning a task to a list, creating a task in a list) are handled in the **application layer**, not inside entities.
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+---
 
-## Contributing
+### Validation strategy
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Validation is handled on two levels:
 
-## Code of Conduct
+1. **HTTP request validation**
+    - Ensures correct input shape and types
+2. **Domain validation**
+    - Enforces business rules inside entities
+    - Implemented using domain-specific validation exceptions
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Both validations return the same JSON format:
+```json
+{
+  "message": "The given data was invalid.",
+  "errors": {
+    "field": ["error message"]
+  }
+}
+```
 
-## Security Vulnerabilities
+This keeps the domain clean while providing a consistent API.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+---
 
-## License
+### Task querying & filtering
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Task listing is implemented using:
+- `TaskListId` — domain filter (VO)
+- `PageRequest` — pagination and sorting options
+
+At this stage, there is only one filter (`TaskListId`), so I did not introduce a separate Criteria/Options VO. If the number of filters increased, the natural refactor would be to add `TaskCriteria`.
+
+---
+
+## Testing
+
+The project includes **feature tests** covering:
+ - CRUD operations for Tasks and TaskLists
+ - Negative scenarios (404, validation errors)
+ - Cross-aggregate rules (e.g. creating a task for a non-existing list)
+ - Cascade deletion (deleting a list removes its tasks)
+
+Tests are written to validate **behavior**, not implementation details.
+
+---
+
+## API overview (examples)
+
+- `GET /api/tasks`
+- `POST /api/tasks`
+- `PATCH /api/tasks/{id}`
+- `DELETE /api/tasks/{id}`
+- `GET /api/task-lists`
+- `POST /api/task-lists`
+- `GET /api/task-lists/{id}`
+- `DELETE /api/task-lists/{id}`
+- `GET /api/task-lists/{id}/tasks`
+- `POST /api/task-lists/{id}/tasks`
+
+--- 
+
+## Why this project?
+
+This project demonstrates:
+- Understanding of **clean architecture principles**
+- Practical application of **DDD concepts**
+- Ability to design **testable, maintainable code**
+- Conscious trade-offs between purity and pragmatism
+It was built intentionally as a **portfolio project**, focusing on code quality and architectural clarity rather than production-scale optimizations.
+
+---
+
+## Tech stack
+
+- PHP 8.x
+- Laravel
+- MySQL
+- PHPUnit / Pest
+- REST API (JSON)
+
+---
+
+## Running the project
+```bash
+composer install
+php artisan migrate
+php artisan test
+php artisan serve
+```
+
+--- 
+
+## Final note
+
+This project is intentionally kept small to clearly showcase architectural decisions and domain modeling, without unnecessary complexity.
+
+

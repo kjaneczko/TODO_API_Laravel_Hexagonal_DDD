@@ -8,7 +8,7 @@ use function Pest\Laravel\deleteJson;
 
 uses(RefreshDatabase::class);
 
-it ('deletes task list', function () {
+it ('deletes a task list', function () {
     $taskList = TaskListModel::factory()->create();
 
     $response = deleteJson('/api/task-lists/' . $taskList->id);
@@ -17,7 +17,7 @@ it ('deletes task list', function () {
     $this->assertDatabaseMissing('task_lists', ['id' => $taskList->id]);
 });
 
-it ('deletes task list and all tasks', function () {
+it ('deletes a task list and all its tasks', function () {
     $taskList = TaskListModel::factory()->create();
     $task1 = TaskModel::factory()->create(['task_list_id' => $taskList->id]);
     $task2 = TaskModel::factory()->create(['task_list_id' => $taskList->id]);

@@ -21,7 +21,7 @@ it('lists tasks', function () {
     ]);
 });
 
-it('lists two from second page tasks', function () {
+it('lists tasks from the second page', function () {
     $task = TaskModel::factory()->count(4)->create();
 
     $response = getJson('/api/tasks?page=2&limit=2');
@@ -35,25 +35,25 @@ it('lists two from second page tasks', function () {
     ]);
 });
 
-it ('shows errors for page number below zero', function () {
+it ('returns validation errors when page is below 0', function () {
     $response = getJson('/api/tasks?page=-1');
     $response->assertUnprocessable();
     $response->assertJsonValidationErrors('page');
 });
 
-it ('shows errors for page number over big integer', function () {
+it ('returns validation errors when page is too large', function () {
     $response = getJson('/api/tasks?page=100000000000000000000000000000000000000000');
     $response->assertUnprocessable();
     $response->assertJsonValidationErrors('page');
 });
 
-it ('shows errors for limit below one', function () {
+it ('returns validation errors when limit is below 1', function () {
     $response = getJson('/api/tasks?limit=0');
     $response->assertUnprocessable();
     $response->assertJsonValidationErrors('limit');
 });
 
-it ('shows errors for limit over one hundred', function () {
+it ('returns validation errors when limit is greater than 100', function () {
     $response = getJson('/api/tasks?limit=101');
     $response->assertUnprocessable();
     $response->assertJsonValidationErrors('limit');

@@ -7,7 +7,7 @@ use function Pest\Laravel\putJson;
 
 uses(RefreshDatabase::class);
 
-it ('updates task list', function () {
+it ('updates a task list', function () {
     $taskList = TaskListModel::factory()->create();
     $name = 'New name';
 
@@ -17,7 +17,7 @@ it ('updates task list', function () {
     $this->assertDatabaseHas('task_lists', ['id' => $taskList->id, 'name' => $name]);
 });
 
-it ('returns error message when updating task list with empty name', function() {
+it ('returns validation errors when updating a task list with an empty name', function() {
     $taskList = TaskListModel::factory()->create();
 
     $response = putJson('/api/task-lists/' . $taskList->id, ['name' => '']);
@@ -25,7 +25,7 @@ it ('returns error message when updating task list with empty name', function() 
     $response->assertJsonValidationErrors('name');
 });
 
-it ('returns error message when updating non-existing task list', function() {
+it ('returns 404 when updating a non-existing task list', function() {
     $response = putJson('/api/task-lists/0', ['name' => '1234']);
     $response->assertNotFound();
 });

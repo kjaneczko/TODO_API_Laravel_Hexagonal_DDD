@@ -7,7 +7,7 @@ use function Pest\Laravel\patchJson;
 
 uses(RefreshDatabase::class);
 
-it ('renames task list', function () {
+it ('renames a task list', function () {
     $taskList = TaskListModel::factory()->create();
     $name = 'My Task List';
 
@@ -17,7 +17,7 @@ it ('renames task list', function () {
     $this->assertDatabaseHas('task_lists', ['id' => $taskList->id, 'name' => $name]);
 });
 
-it ('returns error message when rename task list with empty name', function() {
+it ('returns validation errors when renaming a task list with an empty name', function() {
     $taskList = TaskListModel::factory()->create();
 
     $response = patchJson('/api/task-lists/' . $taskList->id . '/rename', ['name' => '']);

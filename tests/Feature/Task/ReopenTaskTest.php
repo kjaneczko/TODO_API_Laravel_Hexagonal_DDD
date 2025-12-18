@@ -7,7 +7,7 @@ use function Pest\Laravel\patchJson;
 
 uses(RefreshDatabase::class);
 
-it ('reopen task', function () {
+it ('reopens task', function () {
     $task = TaskModel::factory()->create(['completed' => false]);
 
     $response = patchJson('/api/tasks/' . $task->id . '/reopen');

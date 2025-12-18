@@ -7,7 +7,7 @@ use function Pest\Laravel\deleteJson;
 
 uses(RefreshDatabase::class);
 
-it('delete task', function () {
+it('deletes task', function () {
     $model = TaskModel::factory()->create();
     $this->assertDatabaseHas('tasks', [
         'id' => $model->id,

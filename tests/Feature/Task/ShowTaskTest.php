@@ -7,7 +7,7 @@ use function Pest\Laravel\getJson;
 
 uses(RefreshDatabase::class);
 
-it('shows task', function () {
+it('returns task details', function () {
     $task = TaskModel::factory()->create();
 
     $response = getJson('/api/tasks/' . $task['id']);
@@ -18,7 +18,7 @@ it('shows task', function () {
     ]);
 });
 
-it('shows error task not found', function () {
+it('returns 404 when task is not found', function () {
     $response = getJson('/api/tasks/10000');
     $response->assertNotFound();
 });

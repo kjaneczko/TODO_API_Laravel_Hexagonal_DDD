@@ -6,7 +6,7 @@ use function Pest\Laravel\postJson;
 
 uses(RefreshDatabase::class);
 
-it ('creates task list', function () {
+it ('creates a task list', function () {
     $name = 'My Task List';
 
     $response = postJson('/api/task-lists', ['name' => $name]);
@@ -15,7 +15,7 @@ it ('creates task list', function () {
     $this->assertDatabaseHas('task_lists', ['name' => $name]);
 });
 
-it ('returns error message when creating task list with empty name', function() {
+it ('returns validation errors when creating a task list with an empty name', function() {
     $response = postJson('/api/task-lists', ['name' => '']);
     $response->assertUnprocessable();
     $response->assertJsonValidationErrors('name');

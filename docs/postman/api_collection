@@ -483,6 +483,41 @@
                     "name": "",
                     "item": [
                         {
+                            "name": "tasks",
+                            "item": [
+                                {
+                                    "name": "[GET] api/task-lists/{id}/tasks",
+                                    "request": {
+                                        "method": "GET",
+                                        "header": [
+                                            {
+                                                "key": "Accept",
+                                                "value": "application/json",
+                                                "type": "text"
+                                            },
+                                            {
+                                                "key": "Content-Type",
+                                                "value": "application/json",
+                                                "type": "text"
+                                            }
+                                        ],
+                                        "url": {
+                                            "raw": "{{base_url}}/api/task-lists/{id}/tasks",
+                                            "host": [
+                                                "{{base_url}}"
+                                            ],
+                                            "path": [
+                                                "api",
+                                                "task-lists",
+                                                "{id}",
+                                                "tasks"
+                                            ]
+                                        }
+                                    }
+                                }
+                            ]
+                        },
+                        {
                             "name": "rename",
                             "item": [
                                 {
