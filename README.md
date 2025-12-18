@@ -1,7 +1,9 @@
-![Tests](https://github.com/kjaneczko/TODO_API_Laravel_Hexagonal_DDD/actions/workflows/laravel.yml/badge.svg)
+[![Tests](https://github.com/kjaneczko/TODO_API_Laravel_Hexagonal_DDD/actions/workflows/laravel.yml/badge.svg)](https://github.com/kjaneczko/TODO_API_Laravel_Hexagonal_DDD/actions/workflows/laravel.yml)
 ![PHP](https://img.shields.io/badge/php-%3E%3D8.3-8892BF)
 ![Laravel](https://img.shields.io/badge/Laravel-12-red)
 ![Tests](https://img.shields.io/badge/tests-Pest-5C2D91)
+[![License](https://github.com/kjaneczko/TODO_API_Laravel_Hexagonal_DDD)](https://github.com/kjaneczko/TODO_API_Laravel_Hexagonal_DDD/blob/main/LICENSE)
+
 
 
 # Todo App — Hexagonal Architecture & DDD (PHP / Laravel)
