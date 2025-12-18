@@ -24,7 +24,7 @@ jobs:
       run: |
         php -v
         composer -v
-        composer install -q --no-ansi --no-interaction --no-progress --prefer-dist
+        composer install --no-ansi --no-interaction --no-progress --prefer-dist
         composer check-platform-reqs
     - name: Generate key
       run: php artisan key:generate
