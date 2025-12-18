@@ -108,6 +108,16 @@ Tests are written to validate **behavior**, not implementation details.
 
 --- 
 
+## API documentation (Postman)
+
+The repository includes a Postman collection located in the `docs/` directory.
+
+It contains all available API endpoints and can be used to manually test the API without reading the source code.
+
+The collection allows quick exploration of the API and manual verification of request/response behavior.
+
+---
+
 ## Why this project?
 
 This project demonstrates:
