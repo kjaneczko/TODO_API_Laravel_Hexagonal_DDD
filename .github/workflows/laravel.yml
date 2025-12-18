@@ -20,11 +20,9 @@ jobs:
     - uses: actions/checkout@v4
     - name: Copy .env
       run: php -r "file_exists('.env') || copy('.env.example', '.env');"
-    - name: Install Dependencies (debug)
+    - name: Install Dependencies
       run: |
-        php -v
-        composer -v
-        composer install --no-ansi --no-interaction --no-progress --prefer-dist
+        composer install -d --no-ansi --no-interaction --no-progress --prefer-dist
         composer check-platform-reqs
     - name: Generate key
       run: php artisan key:generate
