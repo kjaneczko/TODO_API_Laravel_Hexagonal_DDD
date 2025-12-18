@@ -1,3 +1,9 @@
+![Tests](https://github.com/kjaneczko/TODO_API_Laravel_Hexagonal_DDD/actions/workflows/laravel.yml/badge.svg)
+![PHP](https://img.shields.io/badge/php-%3E%3D8.3-8892BF)
+![Laravel](https://img.shields.io/badge/Laravel-12-red)
+![Tests](https://img.shields.io/badge/tests-Pest-5C2D91)
+
+
 # Todo App — Hexagonal Architecture & DDD (PHP / Laravel)
 
 This project is a simple **Todo application** built as a **learning and portfolio project**, with a strong focus on **clean architecture, Domain-Driven Design (DDD)** and **SOLID principles**.
