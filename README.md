@@ -13,8 +13,8 @@ The application is structured around the hexagonal architecture pattern:
 - **Domain**
   - Pure domain logic (entities, value objects, domain validation)
   - No dependencies on framework, HTTP, ORM or infrastructure
-- **Application**
-  - Use cases and application services 
+- **Architecture**
+  - Use cases and architecture/application services 
   - Cross-aggregate rules (e.g. validating references between Task and TaskList)
   - Orchestration logic
 - **Infrastructure**
@@ -43,7 +43,7 @@ The core domain concepts are:
   - Acts as a separate aggregate root
 
 `Task` and `TaskList` are modeled as **separate aggregates**.
-Cross-aggregate rules (e.g. assigning a task to a list, creating a task in a list) are handled in the **application layer**, not inside entities.
+Cross-aggregate rules (e.g. assigning a task to a list, creating a task in a list) are handled in the **architecture layer**, not inside entities.
 
 ---
 
