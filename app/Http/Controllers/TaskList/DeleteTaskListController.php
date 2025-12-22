@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\TaskList;
 
-use App\Architecture\TaskList\Command\DeleteTaskListCommand;
-use App\Architecture\TaskList\Interface\TaskListServiceInterface;
+use App\Application\TaskList\Command\DeleteTaskListCommand;
+use App\Application\TaskList\Interface\TaskListServiceInterface;
 use App\Domain\TaskList\TaskListId;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;

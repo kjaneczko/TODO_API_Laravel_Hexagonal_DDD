@@ -1,7 +1,7 @@
 <?php
 
-use App\Architecture\Task\Exception\TaskNotFoundException;
-use App\Architecture\TaskList\Exception\TaskListNotFoundException;
+use App\Application\Task\Exception\TaskNotFoundException;
+use App\Application\TaskList\Exception\TaskListNotFoundException;
 use App\Domain\Task\Exception\TaskValidationException;
 use App\Domain\TaskList\Exception\TaskListValidationException;
 use App\Infrastructure\Exception\DatabaseException;

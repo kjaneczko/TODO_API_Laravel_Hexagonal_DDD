@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Task;
 
-use App\Architecture\Task\Command\CreateTaskCommand;
-use App\Architecture\Task\Interface\TaskServiceInterface;
+use App\Application\Task\Command\CreateTaskCommand;
+use App\Application\Task\Interface\TaskServiceInterface;
 use App\Domain\TaskList\TaskListId;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\TaskResource;

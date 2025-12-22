@@ -1,0 +1,21 @@
+<?php
+declare(strict_types=1);
+
+namespace App\Application\Task\Handler;
+
+use App\Application\Task\Command\CompleteTaskCommand;
+use App\Application\Task\TaskExecutor;
+
+readonly class CompleteTaskHandler
+{
+    public function __construct(
+        private TaskExecutor $executor,
+    ) {}
+
+    public function __invoke(CompleteTaskCommand $command): void
+    {
+        $task = $this->executor->getOrFail($command->id);
+        $task->complete();
+        $this->executor->updateOrFail($task);
+    }
+}

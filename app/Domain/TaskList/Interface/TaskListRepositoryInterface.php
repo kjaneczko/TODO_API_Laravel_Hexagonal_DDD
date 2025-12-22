@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Domain\TaskList\Interface;
 
-use App\Architecture\Shared\Query\PageRequest;
+use App\Application\Shared\Query\PageRequest;
 use App\Domain\TaskList\TaskList;
 use App\Domain\TaskList\TaskListId;
 

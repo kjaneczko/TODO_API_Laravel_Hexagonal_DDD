@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Task;
 
-use App\Architecture\Shared\Query\PageRequest;
+use App\Application\Shared\Query\PageRequest;
 use App\Domain\Task\Interface\TaskRepositoryInterface;
 use App\Domain\Task\Task;
 use App\Domain\Task\TaskId;

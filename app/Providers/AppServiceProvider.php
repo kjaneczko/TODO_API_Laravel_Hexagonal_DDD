@@ -3,10 +3,10 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
-use App\Architecture\Task\Interface\TaskServiceInterface;
-use App\Architecture\Task\TaskService;
-use App\Architecture\TaskList\Interface\TaskListServiceInterface;
-use App\Architecture\TaskList\TaskListService;
+use App\Application\Task\Interface\TaskServiceInterface;
+use App\Application\Task\TaskService;
+use App\Application\TaskList\Interface\TaskListServiceInterface;
+use App\Application\TaskList\TaskListService;
 use App\Domain\Task\Interface\TaskRepositoryInterface;
 use App\Domain\TaskList\Interface\TaskListRepositoryInterface;
 use App\Infrastructure\Task\TaskEloquentRepository;

@@ -3,10 +3,10 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\TaskList;
 
-use App\Architecture\Shared\Query\PageRequest;
-use App\Architecture\Task\Command\ListTaskCommand;
-use App\Architecture\Task\Interface\TaskServiceInterface;
-use App\Architecture\TaskList\Interface\TaskListServiceInterface;
+use App\Application\Shared\Query\PageRequest;
+use App\Application\Task\Command\ListTaskCommand;
+use App\Application\Task\Interface\TaskServiceInterface;
+use App\Application\TaskList\Interface\TaskListServiceInterface;
 use App\Domain\TaskList\TaskListId;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\TaskResource;

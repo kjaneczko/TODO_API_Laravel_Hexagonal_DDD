@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Task;
 
-use App\Architecture\Shared\Query\PageRequest;
-use App\Architecture\Task\Command\ListTaskCommand;
-use App\Architecture\Task\Interface\TaskServiceInterface;
+use App\Application\Shared\Query\PageRequest;
+use App\Application\Task\Command\ListTaskCommand;
+use App\Application\Task\Interface\TaskServiceInterface;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\TaskResource;
 use Illuminate\Http\JsonResponse;
