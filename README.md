@@ -139,8 +139,8 @@ It was built intentionally as a **portfolio project**, focusing on code quality 
 
 ## Tech stack
 
-- PHP 8.x
-- Laravel
+- PHP 8.3
+- Laravel 12
 - MySQL
 - PHPUnit / Pest
 - REST API (JSON)
